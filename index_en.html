@@ -1,0 +1,2104 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth bg-black text-white antialiased">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>MEMO.ADT | School of Applied Digital Technology Showcase & Archive</title>
+    <meta name="description" content="คลังนวัตกรรม โครงงานนักศึกษา และงานวิจัย สำนักวิชาเทคโนโลยีดิจิทัลประยุกต์ มหาวิทยาลัยแม่ฟ้าหลวง School of Applied Digital Technology Showcase">
+    <link rel="icon" type="image/png" href="assets/adt-logo.png">
+
+    <!-- Fonts: Inter (Latin) + Prompt (Thai) -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Prompt:ital,wght@0,300;0,400;0,500;0,600;0,700;1,400&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Tailwind CSS (CDN) -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Prompt', 'Inter', 'system-ui', 'sans-serif'],
+                        mono: ['"JetBrains Mono"', 'monospace']
+                    },
+                    colors: {
+                        adt: {
+                            cyan: '#1CA4E1',
+                            deep: '#061C90',
+                            navy: '#030E48'
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+    <!-- Alpine.js (v3) -->
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.13.5/dist/cdn.min.js"></script>
+
+    <style>
+        [x-cloak] { display: none !important; }
+        ::selection { background-color: #1CA4E1; color: #000; }
+        ::-webkit-scrollbar { width: 6px; height: 6px; }
+        ::-webkit-scrollbar-track { background: #000; }
+        ::-webkit-scrollbar-thumb { background: #27272a; border-radius: 9999px; }
+        ::-webkit-scrollbar-thumb:hover { background: #3f3f46; }
+        .major-hover-card:hover {
+            background-color: var(--major-hover-bg, rgba(24, 24, 27, 0.8)) !important;
+            box-shadow: inset 0 0 0 1px var(--major-hover-ring, rgba(63, 63, 70, 0.6)), 0 20px 25px -5px rgba(0, 0, 0, 0.8) !important;
+        }
+    </style>
+</head>
+<body 
+    x-data="homeApp()" 
+    @scroll.window="isScrolled = (window.pageYOffset > 20)"
+    x-init="initDeepLink()" 
+    class="min-h-screen bg-black text-white font-sans selection:bg-[#1CA4E1] selection:text-black overflow-x-hidden relative"
+>
+    <!-- Background High-Tech Canvas Animation -->
+    <canvas id="ambient-canvas" class="fixed inset-0 pointer-events-none z-0 opacity-80" aria-hidden="true"></canvas>
+
+    <!-- Global Header -->
+    <!-- Smooth Cross-Document View Transitions & Page Dissolve Styles -->
+<style>
+@view-transition {
+    navigation: auto;
+}
+
+#global-header {
+    view-transition-name: global-header;
+}
+
+::view-transition-group(root) {
+    animation-duration: 260ms;
+    animation-timing-function: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+::view-transition-old(root) {
+    animation: 200ms cubic-bezier(0.16, 1, 0.3, 1) both vtFadeOut;
+}
+
+::view-transition-new(root) {
+    animation: 260ms cubic-bezier(0.16, 1, 0.3, 1) both vtFadeIn;
+}
+
+@keyframes vtFadeOut {
+    0% {
+        opacity: 1;
+        filter: blur(0px);
+    }
+    100% {
+        opacity: 0;
+        filter: blur(2px);
+    }
+}
+
+@keyframes vtFadeIn {
+    0% {
+        opacity: 0;
+        filter: blur(2px);
+    }
+    100% {
+        opacity: 1;
+        filter: blur(0px);
+    }
+}
+
+/* Pre-navigation Soft Dissolve when language toggle is triggered */
+html.page-lang-switching main {
+    opacity: 0.15 !important;
+    filter: blur(3px) !important;
+    transform: scale(0.998) !important;
+    transition: opacity 220ms cubic-bezier(0.16, 1, 0.3, 1), 
+                filter 220ms cubic-bezier(0.16, 1, 0.3, 1),
+                transform 220ms cubic-bezier(0.16, 1, 0.3, 1) !important;
+    will-change: opacity, filter, transform;
+}
+
+/* Gentle Page Entrance Reveal on Page Load */
+@keyframes mainContentReveal {
+    0% {
+        opacity: 0.2;
+        filter: blur(2.5px);
+    }
+    100% {
+        opacity: 1;
+        filter: blur(0px);
+    }
+}
+
+main {
+    animation: mainContentReveal 240ms cubic-bezier(0.16, 1, 0.3, 1) both;
+}
+</style>
+
+<!-- Global Floating Transparent Navigation Header -->
+<header 
+    id="global-header"
+    :class="(isScrolled || mobileMenuOpen)
+        ? 'border-b border-zinc-800/80 bg-black/90 backdrop-blur-xl shadow-2xl shadow-black/80' 
+        : 'border-b border-transparent bg-transparent backdrop-blur-none'"
+    class="fixed top-0 left-0 right-0 z-50 w-full transition-all duration-300 ease-out"
+>
+    <div class="mx-auto flex h-20 max-w-7xl items-center justify-between px-4 sm:px-6 lg:px-8">
+        
+        <!-- Left: Brand Logo & Identity (Authentic ADT Logo) + Nav Links -->
+        <div class="flex items-center gap-5 sm:gap-6 lg:gap-8 flex-shrink-0">
+            <a href="index.html" class="flex items-center gap-3 group focus:outline-none">
+                <img 
+                    src="assets/adt-logo.png" 
+                    alt="ADT School Logo" 
+                    class="h-8 sm:h-9 w-auto object-contain transition-transform duration-200 group-hover:scale-105"
+                >
+                <div class="flex flex-col">
+                    <div class="flex items-center gap-2">
+                        <span class="text-base sm:text-lg font-bold tracking-tight text-white group-hover:text-cyan-400 transition-colors font-mono">
+                            MEMO<span class="text-[#1CA4E1]">.ADT</span>
+                        </span>
+                    </div>
+                    <p class="hidden sm:block text-[10px] text-zinc-400 font-light tracking-wide">
+                        School of Applied Digital Technology
+                    </p>
+                </div>
+            </a>
+
+            <!-- Desktop / Tablet Page Navigation (Fixed min-widths to prevent any layout shifts) -->
+            <nav class="hidden md:flex items-center gap-1.5 text-xs font-medium" aria-label="เมนูหลัก">
+                <a 
+                    href="showcase.html" 
+                    class="min-w-[115px] justify-center px-3.5 py-1.5 rounded-full transition-all flex items-center gap-2 text-zinc-400 hover:text-white hover:bg-zinc-900/60"
+                >
+                    <span>Showcase</span>
+                    <span class="h-1.5 w-1.5 rounded-full bg-cyan-500/70"></span>
+                </a>
+                <a 
+                    href="about.html" 
+                    class="min-w-[110px] justify-center px-3.5 py-1.5 rounded-full transition-all flex items-center gap-2 text-zinc-400 hover:text-white hover:bg-zinc-900/60"
+                >
+                    <span>About Us</span>
+                    <span class="h-1.5 w-1.5 rounded-full bg-cyan-500/70"></span>
+                </a>
+            </nav>
+        </div>
+
+        <!-- Desktop Actions: Submit Room Code (CTA) + Solid White Login/Profile + Language Switcher at Far Right -->
+        <div class="hidden md:flex items-center gap-3 sm:gap-4 flex-shrink-0">
+            <!-- Submit Project with Room Code (Translucent Glass Pill - Stable min-width) -->
+            <button 
+                @click="openRoomModal = true"
+                type="button"
+                class="min-w-[190px] justify-center inline-flex items-center gap-2 text-xs font-medium text-zinc-200 hover:text-white px-4 py-2.5 rounded-full border border-zinc-700/80 hover:border-cyan-400 bg-zinc-900/60 backdrop-blur-md transition-all active:scale-95 group shadow-sm flex-shrink-0"
+            >
+                <svg class="h-3.5 w-3.5 text-cyan-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+                </svg>
+                <span>Submit Project</span>
+            </button>
+
+            <!-- Login / Faculty Portal (High-Contrast Solid White Pill - Stable min-width) -->
+                        <button 
+                @click="openLoginModal = true"
+                type="button"
+                class="min-w-[115px] justify-center inline-flex items-center gap-2 text-xs font-semibold text-black bg-white hover:bg-zinc-200 px-5 py-2.5 rounded-full transition-all active:scale-95 shadow-md shadow-white/10 flex-shrink-0"
+            >
+                <svg class="h-3.5 w-3.5 text-zinc-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+                <span>Sign In</span>
+            </button>
+            
+            <!-- Unified Language Toggle Switch (Single Clickable Component at Far Right) -->
+            <button 
+                x-data="{
+                    activeLang: 'en',
+                    isSwitching: false,
+                    toggleLanguage() {
+                        if (this.isSwitching) return;
+                        this.isSwitching = true;
+                        const targetLang = this.activeLang === 'th' ? 'en' : 'th';
+                        this.activeLang = targetLang;
+                        const targetUrl = targetLang === 'en' ? 'index_en.html' : 'index.html';
+                        
+                        // Immediately trigger smooth graceful page dissolve
+                        document.documentElement.classList.add('page-lang-switching');
+                        
+                        setTimeout(() => {
+                            window.location.href = targetUrl;
+                        }, 240);
+                    }
+                }"
+                @click="toggleLanguage()"
+                type="button"
+                role="switch"
+                :aria-checked="activeLang === 'en'"
+                class="relative inline-flex items-center rounded-full border border-zinc-800/90 bg-zinc-950/90 p-1 text-xs font-mono shadow-inner h-9 w-[116px] select-none cursor-pointer overflow-hidden transition-all duration-200 active:scale-[0.97] group hover:border-zinc-700 flex-shrink-0"
+                :title="activeLang === 'th' ? 'คลิกเพื่อสลับเป็น English' : 'Click to switch to ภาษาไทย'"
+            >
+                <!-- Smooth Sliding Cyan Pill Thumb (Hardware-accelerated) -->
+                <span 
+                    class="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-full bg-gradient-to-r from-cyan-400 to-[#1CA4E1] shadow-lg shadow-cyan-500/30 transition-transform duration-260 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none translate-x-full"
+                    :class="activeLang === 'th' ? 'translate-x-0' : 'translate-x-full'"
+                    style="left: 4px; will-change: transform;"
+                ></span>
+
+                <!-- TH Label -->
+                <span 
+                    class="relative z-10 w-1/2 h-full flex items-center justify-center font-bold tracking-wider rounded-full transition-colors duration-200 pointer-events-none select-none"
+                    :class="activeLang === 'th' ? 'text-black' : 'text-zinc-400 group-hover:text-zinc-200'"
+                >
+                    TH
+                </span>
+
+                <!-- EN Label -->
+                <span 
+                    class="relative z-10 w-1/2 h-full flex items-center justify-center font-bold tracking-wider rounded-full transition-colors duration-200 pointer-events-none select-none"
+                    :class="activeLang === 'en' ? 'text-black' : 'text-zinc-400 group-hover:text-zinc-200'"
+                >
+                    EN
+                </span>
+            </button>
+        </div>
+
+        <!-- Mobile Actions: Morphing Hamburger Only (Clean & Uncluttered) -->
+        <div class="flex items-center md:hidden">
+            <button 
+                @click="mobileMenuOpen = !mobileMenuOpen"
+                type="button"
+                class="inline-flex items-center justify-center w-10 h-10 rounded-full border border-zinc-800 bg-zinc-900/60 text-zinc-300 hover:text-white hover:border-zinc-600 active:scale-95 backdrop-blur-md transition-all focus:outline-none"
+                aria-label="เมนูหลัก"
+            >
+                <div class="w-4.5 h-3.5 relative flex flex-col justify-between" style="width: 18px; height: 14px;">
+                    <!-- Top Line -->
+                    <span 
+                        class="block w-full h-[2px] bg-current rounded-full transition-all duration-300 ease-out origin-center"
+                        :class="mobileMenuOpen ? 'translate-y-[6px] rotate-45 text-white' : ''"
+                    ></span>
+
+                    <!-- Middle Line -->
+                    <span 
+                        class="block w-full h-[2px] bg-current rounded-full transition-all duration-200 ease-out"
+                        :class="mobileMenuOpen ? 'opacity-0 scale-x-0' : 'opacity-100'"
+                    ></span>
+
+                    <!-- Bottom Line -->
+                    <span 
+                        class="block w-full h-[2px] bg-current rounded-full transition-all duration-300 ease-out origin-center"
+                        :class="mobileMenuOpen ? '-translate-y-[6px] -rotate-45 text-white' : ''"
+                    ></span>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Drawer Menu -->
+    <div 
+        x-show="mobileMenuOpen" 
+        x-cloak
+        x-transition:enter="transition ease-out duration-200"
+        x-transition:enter-start="opacity-0 -translate-y-4"
+        x-transition:enter-end="opacity-100 translate-y-0"
+        x-transition:leave="transition ease-in duration-150"
+        x-transition:leave-start="opacity-100 translate-y-0"
+        x-transition:leave-end="opacity-0 -translate-y-4"
+        @click.away="mobileMenuOpen = false"
+        class="md:hidden border-b border-zinc-800/90 bg-black/95 backdrop-blur-2xl px-5 pt-3 pb-6 space-y-4 shadow-2xl"
+    >
+        <!-- Mobile Page Navigation Links -->
+        <div class="flex items-center gap-2 pt-1 border-b border-zinc-800/80 pb-3 text-xs font-medium">
+            <a 
+                href="showcase.html" 
+                class="py-1.5 px-4 rounded-full transition-colors flex items-center gap-2 text-zinc-400 hover:text-white"
+            >
+                <span>Showcase</span>
+                <span class="h-1.5 w-1.5 rounded-full bg-[#1CA4E1]"></span>
+            </a>
+            <a 
+                href="about.html" 
+                class="py-1.5 px-4 rounded-full transition-colors flex items-center gap-2 text-zinc-400 hover:text-white"
+            >
+                <span>About Us</span>
+                <span class="h-1.5 w-1.5 rounded-full bg-[#1CA4E1]"></span>
+            </a>
+        </div>
+
+        <!-- Mobile Action Buttons -->
+        <div class="grid grid-cols-1 gap-2.5 pt-1">
+            <button 
+                @click="mobileMenuOpen = false; openRoomModal = true;"
+                type="button"
+                class="w-full rounded-full border border-zinc-700/80 bg-zinc-900/90 py-2.5 text-xs font-medium text-zinc-200 hover:border-[#1CA4E1] hover:text-white active:scale-95 transition-all text-center flex items-center justify-center gap-2"
+            >
+                <svg class="h-4 w-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+                </svg>
+                <span>Submit Project</span>
+            </button>
+
+                        <button 
+                @click="mobileMenuOpen = false; openLoginModal = true;"
+                type="button"
+                class="w-full rounded-full bg-white py-2.5 text-xs font-semibold text-black hover:bg-zinc-200 active:scale-95 transition-all text-center flex items-center justify-center gap-2 shadow-sm"
+            >
+                <svg class="h-4 w-4 text-zinc-800" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                </svg>
+                <span>Sign In (Faculty / Staff)</span>
+            </button>
+                    </div>
+
+        <!-- Mobile Language Selector Section Inside Drawer -->
+        <div class="pt-3 border-t border-zinc-800/80 flex items-center justify-between text-xs">
+            <div class="flex items-center gap-2 text-zinc-400">
+                <svg class="h-4 w-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129" />
+                </svg>
+                <span class="font-medium text-zinc-300">Language</span>
+            </div>
+
+            <!-- Mobile Unified Language Toggle Switch -->
+            <button 
+                x-data="{
+                    activeLang: 'en',
+                    isSwitching: false,
+                    toggleLanguage() {
+                        if (this.isSwitching) return;
+                        this.isSwitching = true;
+                        const targetLang = this.activeLang === 'th' ? 'en' : 'th';
+                        this.activeLang = targetLang;
+                        const targetUrl = targetLang === 'en' ? 'index_en.html' : 'index.html';
+                        
+                        // Immediately trigger smooth graceful page dissolve
+                        document.documentElement.classList.add('page-lang-switching');
+                        
+                        setTimeout(() => {
+                            window.location.href = targetUrl;
+                        }, 240);
+                    }
+                }"
+                @click="toggleLanguage()"
+                type="button"
+                role="switch"
+                :aria-checked="activeLang === 'en'"
+                class="relative inline-flex items-center rounded-full border border-zinc-800/90 bg-zinc-950/90 p-1 text-xs font-mono shadow-inner h-9 w-[116px] select-none cursor-pointer overflow-hidden transition-all duration-200 active:scale-[0.97] group hover:border-zinc-700"
+                :title="activeLang === 'th' ? 'คลิกเพื่อสลับเป็น English' : 'Click to switch to ภาษาไทย'"
+            >
+                <!-- Smooth Sliding Cyan Pill Thumb (Hardware-accelerated) -->
+                <span 
+                    class="absolute top-1 bottom-1 w-[calc(50%-4px)] rounded-full bg-gradient-to-r from-cyan-400 to-[#1CA4E1] shadow-md shadow-cyan-500/30 transition-transform duration-260 ease-[cubic-bezier(0.16,1,0.3,1)] pointer-events-none translate-x-full"
+                    :class="activeLang === 'th' ? 'translate-x-0' : 'translate-x-full'"
+                    style="left: 4px; will-change: transform;"
+                ></span>
+
+                <!-- TH Label -->
+                <span 
+                    class="relative z-10 w-1/2 h-full flex items-center justify-center font-bold tracking-wider rounded-full transition-colors duration-200 pointer-events-none select-none"
+                    :class="activeLang === 'th' ? 'text-black' : 'text-zinc-400 group-hover:text-zinc-200'"
+                >
+                    TH
+                </span>
+
+                <!-- EN Label -->
+                <span 
+                    class="relative z-10 w-1/2 h-full flex items-center justify-center font-bold tracking-wider rounded-full transition-colors duration-200 pointer-events-none select-none"
+                    :class="activeLang === 'en' ? 'text-black' : 'text-zinc-400 group-hover:text-zinc-200'"
+                >
+                    EN
+                </span>
+            </button>
+        </div>
+    </div>
+</header>
+
+<!-- Smooth Page Restore from bfcache / navigation -->
+<script>
+window.addEventListener('pageshow', () => {
+    document.documentElement.classList.remove('page-lang-switching');
+});
+</script>
+
+    <main class="relative z-10 flex-grow">
+    <!-- ========================================================================= -->
+    <!-- 1. HERO SPOTLIGHT (Shopify Cinematic Composition with 3D Core Canvas)      -->
+    <!-- ========================================================================= -->
+    <section class="relative overflow-hidden pt-32 pb-20 sm:pt-44 sm:pb-28 lg:pt-48 border-b border-zinc-800/60 bg-transparent">
+        <!-- Ambient Glowing Core Behind 3D Graphic -->
+        <div class="pointer-events-none absolute right-0 sm:right-10 top-1/3 -translate-y-1/2 h-[550px] w-[550px] sm:h-[800px] sm:w-[800px] rounded-full bg-gradient-to-br from-[#1CA4E1]/20 via-[#061C90]/25 to-transparent blur-[160px]"></div>
+        <div class="pointer-events-none absolute right-8 sm:right-24 top-1/3 -translate-y-1/2 h-[350px] w-[350px] sm:h-[500px] sm:w-[500px] rounded-full bg-[#1CA4E1]/15 blur-[110px]"></div>
+
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8 relative z-10">
+            <div class="max-w-3xl">
+                <!-- Main Hero Headline -->
+                <h1 class="text-3xl sm:text-5xl lg:text-6xl font-bold tracking-tight text-white leading-[1.15] mb-6">
+                    School of <br class="hidden sm:block">
+                    <span class="text-transparent bg-clip-text bg-gradient-to-r from-white via-zinc-200 to-cyan-400">
+                        Applied Digital Technology
+                    </span>
+                    <br>
+                    <span class="text-2xl sm:text-3xl lg:text-4xl font-semibold text-zinc-300 tracking-normal block mt-2">
+                        Showcase & Academic Archive
+                    </span>
+                </h1>
+
+                <!-- Subtitle -->
+                <p class="text-sm sm:text-base text-zinc-400 leading-relaxed max-w-2xl mb-8 font-light">
+                    The premier showcase & digital repository preserving student capstone innovations, source codes, interactive demos, and complete technical documentation for global impact.                </p>
+
+                <!-- Hero CTA Buttons -->
+                <div class="flex flex-wrap items-center gap-3 sm:gap-4 pt-2">
+                    <!-- Explore Gallery CTA -->
+                    <a 
+                        href="showcase.html" 
+                        class="inline-flex items-center justify-center gap-2 rounded-full bg-white px-6 sm:px-8 py-3.5 text-xs sm:text-sm font-semibold text-black hover:bg-zinc-200 transition-all active:scale-95 shadow-xl shadow-white/10 group"
+                    >
+                        <span>Explore Gallery</span>
+                        <svg class="h-4 w-4 text-black group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                        </svg>
+                    </a>
+
+                    <!-- Add Project with Room Code CTA -->
+                    <button 
+                        @click="openRoomModal = true"
+                        type="button"
+                        class="inline-flex items-center justify-center gap-2 rounded-full border border-zinc-700/80 bg-zinc-900/80 px-6 sm:px-7 py-3.5 text-xs sm:text-sm font-medium text-zinc-200 hover:text-white hover:border-cyan-400 backdrop-blur-md transition-all active:scale-95 shadow-sm group"
+                    >
+                        <svg class="h-4 w-4 text-cyan-400 group-hover:scale-110 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M12 4v16m8-8H4"/>
+                        </svg>
+                        <span>Submit Project</span>
+                    </button>
+                </div>
+
+                <!-- Stats Bar -->
+                <div class="pt-10 sm:pt-14 grid grid-cols-2 sm:grid-cols-4 gap-4 sm:gap-6 border-t border-zinc-900/80 mt-10">
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-bold font-mono text-white tracking-tight">
+                            7+
+                        </div>
+                        <div class="text-[11px] text-zinc-500 font-medium uppercase tracking-wider mt-0.5">
+                            Archived Projects                        </div>
+                    </div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-bold font-mono text-cyan-400 tracking-tight">
+                            6
+                        </div>
+                        <div class="text-[11px] text-zinc-500 font-medium uppercase tracking-wider mt-0.5">
+                            Academic Disciplines                        </div>
+                    </div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-bold font-mono text-white tracking-tight">
+                            100%
+                        </div>
+                        <div class="text-[11px] text-zinc-500 font-medium uppercase tracking-wider mt-0.5">
+                            Full Documentation
+                        </div>
+                    </div>
+                    <div>
+                        <div class="text-2xl sm:text-3xl font-bold font-mono text-emerald-400 tracking-tight">
+                            100%
+                        </div>
+                        <div class="text-[11px] text-zinc-500 font-medium uppercase tracking-wider mt-0.5">
+                            Cloud-Native Preservation
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- 2. SECTION 1: HALL OF FAME / CURATED AWARD HIGHLIGHTS                      -->
+    <!-- ========================================================================= -->
+    <section class="relative py-16 sm:py-24 border-b border-zinc-800/80 bg-zinc-950/60 z-10">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="flex flex-col sm:flex-row sm:items-end justify-between gap-4 mb-10">
+                <div>
+                    <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                        Curated Capstones & National Honors                    </h2>
+                    <p class="text-xs sm:text-sm text-zinc-400 mt-1 max-w-xl">
+                        Handpicked student innovations recognized at national and university hackathons and competitions.                    </p>
+                </div>
+                <a 
+                    href="showcase.html" 
+                    class="inline-flex items-center gap-2 text-xs font-medium text-cyan-400 hover:text-cyan-300 transition-colors"
+                >
+                    <span>View All in Showcase</span>
+                    <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                    </svg>
+                </a>
+            </div>
+
+            <!-- Award Highlights Grid (Top 3 - YouTube-Style Ghost Hover Capsule) -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 sm:gap-10 lg:gap-12">
+                                                <article 
+                    @click="openProjectModalBySlug('project-33bb64')"
+                    style="--major-hover-bg: rgba(33, 114, 62, 0.08); --major-hover-ring: rgba(33, 114, 62, 0.35);"
+                    class="group major-hover-card cursor-pointer flex flex-col space-y-3.5 p-3.5 -m-3.5 rounded-3xl transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-black/90 hover:-translate-y-1"
+                >
+                    <!-- Cover Image with 16:9 Aspect Ratio (Thumbnail) -->
+                    <div class="relative aspect-video w-full overflow-hidden rounded-2xl bg-zinc-950 ring-1 ring-white/10 shadow-lg">
+                        <img 
+                            src="https://images.unsplash.com/photo-1526374965328-7f61d4dc18c5?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" 
+                            alt="ระบบทดสอบส่งงานอัตโนมัติ 2567"
+                            class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                            loading="lazy"
+                        >
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity"></div>
+
+                        <!-- Top Floating Badges -->
+                        <div class="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
+                                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-bold bg-black/80 backdrop-blur-md border shadow-sm transition-all"
+                                  style="border-color: rgba(33, 114, 62, 0.65); box-shadow: 0 0 10px rgba(33, 114, 62, 0.45);">
+                                <span class="h-1.5 w-1.5 rounded-full" style="background-color: #21723e; box-shadow: 0 0 6px #21723e;"></span>
+                                <span style="color: #4ade80;">SE</span>
+                            </span>
+
+                                                    </div>
+
+                        <!-- Bottom-Left: Media Capabilities Icons (Horizontal Row) -->
+                        <div class="absolute bottom-3 left-3 flex items-center gap-1.5 z-10 pointer-events-none">
+                                                        <div class="h-6 w-6 rounded-full bg-black/80 border border-white/20 backdrop-blur-md flex items-center justify-center text-xs shadow-md" title="มีเอกสารรูปเล่มโครงงาน (Full Report)">
+                                <span>📖</span>
+                            </div>
+                            
+                            
+                            
+                                                    </div>
+
+                        <!-- Bottom-Right: View Count Pill (Matching User Reference) -->
+                        <div class="absolute bottom-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/80 border border-white/20 backdrop-blur-md text-[11px] font-mono font-medium text-zinc-200 shadow-md z-10 pointer-events-none">
+                            <svg class="h-3 w-3 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                            <span>691</span>
+                        </div>
+                    </div>
+
+                    <!-- Typography Body -->
+                    <div class="space-y-1.5 px-1 pb-1">
+                        <div class="flex items-start justify-between gap-3">
+                            <h3 class="text-base sm:text-lg font-bold text-white tracking-tight leading-snug line-clamp-2">
+                                ระบบทดสอบส่งงานอัตโนมัติ 2567                            </h3>
+                            <span class="text-zinc-500 group-hover:text-zinc-200 group-hover:translate-x-1.5 transition-all text-base font-light flex-shrink-0">
+                                →
+                            </span>
+                        </div>
+
+                                                                            
+                        <p class="text-xs sm:text-sm text-zinc-400 font-light leading-relaxed line-clamp-2 pt-0.5">
+                                                    </p>
+
+                        <div class="flex flex-wrap items-center gap-2 pt-1 text-[11px] text-zinc-500 font-mono">
+                            <span class="text-zinc-400">Cohort 2567</span>
+                            <span class="text-zinc-700">•</span>
+                                                    </div>
+                    </div>
+                </article>
+                                                <article 
+                    @click="openProjectModalBySlug('tea-farm-iot')"
+                    style="--major-hover-bg: rgba(149, 21, 25, 0.08); --major-hover-ring: rgba(149, 21, 25, 0.35);"
+                    class="group major-hover-card cursor-pointer flex flex-col space-y-3.5 p-3.5 -m-3.5 rounded-3xl transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-black/90 hover:-translate-y-1"
+                >
+                    <!-- Cover Image with 16:9 Aspect Ratio (Thumbnail) -->
+                    <div class="relative aspect-video w-full overflow-hidden rounded-2xl bg-zinc-950 ring-1 ring-white/10 shadow-lg">
+                        <img 
+                            src="https://images.unsplash.com/photo-1530836369250-ef72a3f5cda8?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" 
+                            alt="LoRaWAN Edge-AI Soil Intelligence &amp; Microclimate Monitoring for Highland Tea Farms"
+                            class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                            loading="lazy"
+                        >
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity"></div>
+
+                        <!-- Top Floating Badges -->
+                        <div class="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
+                                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-bold bg-black/80 backdrop-blur-md border shadow-sm transition-all"
+                                  style="border-color: rgba(149, 21, 25, 0.7); box-shadow: 0 0 10px rgba(149, 21, 25, 0.45);">
+                                <span class="h-1.5 w-1.5 rounded-full" style="background-color: #951519; box-shadow: 0 0 6px #951519;"></span>
+                                <span style="color: #f87171;">CE</span>
+                            </span>
+
+                                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-amber-500 text-black shadow-md">
+                                <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <span class="truncate max-w-[140px]">TICTA Thailand ICT Awards - Best AgroTech</span>
+                            </span>
+                                                    </div>
+
+                        <!-- Bottom-Left: Media Capabilities Icons (Horizontal Row) -->
+                        <div class="absolute bottom-3 left-3 flex items-center gap-1.5 z-10 pointer-events-none">
+                                                        <div class="h-6 w-6 rounded-full bg-black/80 border border-white/20 backdrop-blur-md flex items-center justify-center text-xs shadow-md" title="มีเอกสารรูปเล่มโครงงาน (Full Report)">
+                                <span>📖</span>
+                            </div>
+                            
+                                                        <div class="h-6 w-6 rounded-full bg-black/80 border border-white/20 backdrop-blur-md flex items-center justify-center text-xs shadow-md" title="มีคลิปวิดีโอสาธิต (Video)">
+                                <span>🎬</span>
+                            </div>
+                            
+                                                        <div class="h-6 w-6 rounded-full bg-black/80 border border-white/20 backdrop-blur-md flex items-center justify-center text-xs shadow-md" title="มีระบบทดลองใช้งาน / WebGL Demo">
+                                <span>🎮</span>
+                            </div>
+                            
+                                                        <div class="h-6 w-6 rounded-full bg-black/80 border border-white/20 backdrop-blur-md flex items-center justify-center text-xs shadow-md" title="มีซอร์สโค้ด (GitHub)">
+                                <span>💻</span>
+                            </div>
+                                                    </div>
+
+                        <!-- Bottom-Right: View Count Pill (Matching User Reference) -->
+                        <div class="absolute bottom-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/80 border border-white/20 backdrop-blur-md text-[11px] font-mono font-medium text-zinc-200 shadow-md z-10 pointer-events-none">
+                            <svg class="h-3 w-3 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                            <span>1k</span>
+                        </div>
+                    </div>
+
+                    <!-- Typography Body -->
+                    <div class="space-y-1.5 px-1 pb-1">
+                        <div class="flex items-start justify-between gap-3">
+                            <h3 class="text-base sm:text-lg font-bold text-white tracking-tight leading-snug line-clamp-2">
+                                LoRaWAN Edge-AI Soil Intelligence &amp; Microclimate Monitoring for Highland Tea Farms                            </h3>
+                            <span class="text-zinc-500 group-hover:text-zinc-200 group-hover:translate-x-1.5 transition-all text-base font-light flex-shrink-0">
+                                →
+                            </span>
+                        </div>
+
+                                                                                <p class="text-xs text-zinc-500 font-light italic truncate">
+                                ระบบเครือข่ายเซนเซอร์ IoT ไร้สายและการทำนายสภาพดินในไร่ชาดอยแม่สลอง                            </p>
+                                                    
+                        <p class="text-xs sm:text-sm text-zinc-400 font-light leading-relaxed line-clamp-2 pt-0.5">
+                            Solar-powered LoRaWAN mesh network and TinyML edge intelligence deployed in Doi Mae Salong tea plantations for precision microclimate prediction.                        </p>
+
+                        <div class="flex flex-wrap items-center gap-2 pt-1 text-[11px] text-zinc-500 font-mono">
+                            <span class="text-zinc-400">Cohort 2567</span>
+                            <span class="text-zinc-700">•</span>
+                                                        <span class="text-zinc-400">#LoRaWAN</span>
+                                                        <span class="text-zinc-400">#ESP32</span>
+                                                    </div>
+                    </div>
+                </article>
+                                                <article 
+                    @click="openProjectModalBySlug('telehealth-mfu')"
+                    style="--major-hover-bg: rgba(33, 114, 62, 0.08); --major-hover-ring: rgba(33, 114, 62, 0.35);"
+                    class="group major-hover-card cursor-pointer flex flex-col space-y-3.5 p-3.5 -m-3.5 rounded-3xl transition-all duration-300 ease-out hover:shadow-2xl hover:shadow-black/90 hover:-translate-y-1"
+                >
+                    <!-- Cover Image with 16:9 Aspect Ratio (Thumbnail) -->
+                    <div class="relative aspect-video w-full overflow-hidden rounded-2xl bg-zinc-950 ring-1 ring-white/10 shadow-lg">
+                        <img 
+                            src="https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&amp;fit=crop&amp;w=1200&amp;q=80" 
+                            alt="Cloud-Native Telehealth &amp; Intelligent Queue Orchestration System"
+                            class="h-full w-full object-cover transition-transform duration-500 ease-out group-hover:scale-[1.03]"
+                            loading="lazy"
+                        >
+                        <div class="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-60 group-hover:opacity-30 transition-opacity"></div>
+
+                        <!-- Top Floating Badges -->
+                        <div class="absolute top-3 left-3 right-3 flex items-center justify-between gap-2">
+                                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-mono font-bold bg-black/80 backdrop-blur-md border shadow-sm transition-all"
+                                  style="border-color: rgba(33, 114, 62, 0.65); box-shadow: 0 0 10px rgba(33, 114, 62, 0.45);">
+                                <span class="h-1.5 w-1.5 rounded-full" style="background-color: #21723e; box-shadow: 0 0 6px #21723e;"></span>
+                                <span style="color: #4ade80;">SE</span>
+                            </span>
+
+                                                        <span class="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-[11px] font-medium bg-amber-500 text-black shadow-md">
+                                <svg class="h-3 w-3" fill="currentColor" viewBox="0 0 20 20">
+                                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                </svg>
+                                <span class="truncate max-w-[140px]">MFU Innovation Award 2024 - Gold Medal</span>
+                            </span>
+                                                    </div>
+
+                        <!-- Bottom-Left: Media Capabilities Icons (Horizontal Row) -->
+                        <div class="absolute bottom-3 left-3 flex items-center gap-1.5 z-10 pointer-events-none">
+                                                        <div class="h-6 w-6 rounded-full bg-black/80 border border-white/20 backdrop-blur-md flex items-center justify-center text-xs shadow-md" title="มีเอกสารรูปเล่มโครงงาน (Full Report)">
+                                <span>📖</span>
+                            </div>
+                            
+                                                        <div class="h-6 w-6 rounded-full bg-black/80 border border-white/20 backdrop-blur-md flex items-center justify-center text-xs shadow-md" title="มีคลิปวิดีโอสาธิต (Video)">
+                                <span>🎬</span>
+                            </div>
+                            
+                                                        <div class="h-6 w-6 rounded-full bg-black/80 border border-white/20 backdrop-blur-md flex items-center justify-center text-xs shadow-md" title="มีระบบทดลองใช้งาน / WebGL Demo">
+                                <span>🎮</span>
+                            </div>
+                            
+                                                        <div class="h-6 w-6 rounded-full bg-black/80 border border-white/20 backdrop-blur-md flex items-center justify-center text-xs shadow-md" title="มีซอร์สโค้ด (GitHub)">
+                                <span>💻</span>
+                            </div>
+                                                    </div>
+
+                        <!-- Bottom-Right: View Count Pill (Matching User Reference) -->
+                        <div class="absolute bottom-3 right-3 flex items-center gap-1.5 px-2.5 py-1 rounded-full bg-black/80 border border-white/20 backdrop-blur-md text-[11px] font-mono font-medium text-zinc-200 shadow-md z-10 pointer-events-none">
+                            <svg class="h-3 w-3 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z"/>
+                            </svg>
+                            <span>396</span>
+                        </div>
+                    </div>
+
+                    <!-- Typography Body -->
+                    <div class="space-y-1.5 px-1 pb-1">
+                        <div class="flex items-start justify-between gap-3">
+                            <h3 class="text-base sm:text-lg font-bold text-white tracking-tight leading-snug line-clamp-2">
+                                Cloud-Native Telehealth &amp; Intelligent Queue Orchestration System                            </h3>
+                            <span class="text-zinc-500 group-hover:text-zinc-200 group-hover:translate-x-1.5 transition-all text-base font-light flex-shrink-0">
+                                →
+                            </span>
+                        </div>
+
+                                                                                <p class="text-xs text-zinc-500 font-light italic truncate">
+                                ระบบการแพทย์ทางไกลและการจัดการคิวอัจฉริยะสำหรับโรงพยาบาลศูนย์การแพทย์ มฟล.                            </p>
+                                                    
+                        <p class="text-xs sm:text-sm text-zinc-400 font-light leading-relaxed line-clamp-2 pt-0.5">
+                            An end-to-end cloud-native telehealth architecture tailored for highland communities, featuring dynamic bitrate video streaming and real-time queue orchestration.                        </p>
+
+                        <div class="flex flex-wrap items-center gap-2 pt-1 text-[11px] text-zinc-500 font-mono">
+                            <span class="text-zinc-400">Cohort 2567</span>
+                            <span class="text-zinc-700">•</span>
+                                                        <span class="text-zinc-400">#React</span>
+                                                        <span class="text-zinc-400">#Node.js</span>
+                                                    </div>
+                    </div>
+                </article>
+                            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- 3. SECTION 2: 6 STUDY PROGRAMMES SHOWCASE (Interactive Major Directory)     -->
+    <!-- ========================================================================= -->
+    <section class="relative py-16 sm:py-24 border-b border-zinc-800/80 bg-black z-10">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="max-w-2xl mb-12">
+                <h2 class="text-2xl sm:text-3xl font-bold tracking-tight text-white">
+                    6 Academic Disciplines · School of ADT                </h2>
+                <p class="text-xs sm:text-sm text-zinc-400 mt-2 leading-relaxed">
+                    Industry-aligned curricula empowering students to build cutting-edge digital solutions for local communities and global industries.                </p>
+            </div>
+
+            <!-- 6 Study Programme Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                
+                <!-- 1. CE -->
+                <a 
+                    href="showcase.php?major=CE" 
+                    class="group relative rounded-3xl bg-zinc-900/40 border border-zinc-800/90 hover:border-[#951519]/50 hover:bg-[#951519]/[0.06] hover:shadow-xl hover:shadow-[#951519]/15 p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between"
+                >
+                    <div class="space-y-4">
+                        <div>
+                            <span class="text-2xl font-bold font-mono text-[#f87171] group-hover:text-white transition-colors">CE</span>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white group-hover:text-[#f87171] transition-colors">
+                                Computer Engineering                            </h3>
+                            <p class="text-xs text-zinc-400 font-light mt-0.5">
+                                วิศวกรรมคอมพิวเตอร์                            </p>
+                        </div>
+                        <p class="text-xs text-zinc-400 leading-relaxed">
+                            Embedded systems, computer networks, AI hardware acceleration, and high-performance computing.                        </p>
+                    </div>
+
+                    <div class="pt-6 border-t border-zinc-800/80 mt-6 flex items-center justify-between text-xs">
+                        <span class="text-zinc-500">
+                            1 projects                        </span>
+                        <span class="text-[#f87171] font-medium group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                            <span>Explore Projects</span>
+                            <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- 2. DCE -->
+                <a 
+                    href="showcase.php?major=DCE" 
+                    class="group relative rounded-3xl bg-zinc-900/40 border border-zinc-800/90 hover:border-[#76202a]/50 hover:bg-[#76202a]/[0.06] hover:shadow-xl hover:shadow-[#76202a]/15 p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between"
+                >
+                    <div class="space-y-4">
+                        <div>
+                            <span class="text-2xl font-bold font-mono text-[#fb7185] group-hover:text-white transition-colors">DCE</span>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white group-hover:text-[#fb7185] transition-colors">
+                                Digital and Communication Engineering                            </h3>
+                            <p class="text-xs text-zinc-400 font-light mt-0.5">
+                                วิศวกรรมดิจิทัลและการสื่อสาร                            </p>
+                        </div>
+                        <p class="text-xs text-zinc-400 leading-relaxed">
+                            5G/6G telecommunication infrastructure, industrial IoT sensors, satellite communications, and smart networks.                        </p>
+                    </div>
+
+                    <div class="pt-6 border-t border-zinc-800/80 mt-6 flex items-center justify-between text-xs">
+                        <span class="text-zinc-500">
+                            1 projects                        </span>
+                        <span class="text-[#fb7185] font-medium group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                            <span>Explore Projects</span>
+                            <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- 3. SE -->
+                <a 
+                    href="showcase.php?major=SE" 
+                    class="group relative rounded-3xl bg-zinc-900/40 border border-zinc-800/90 hover:border-[#21723e]/50 hover:bg-[#21723e]/[0.06] hover:shadow-xl hover:shadow-[#21723e]/15 p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between"
+                >
+                    <div class="space-y-4">
+                        <div>
+                            <span class="text-2xl font-bold font-mono text-[#4ade80] group-hover:text-white transition-colors">SE</span>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white group-hover:text-[#4ade80] transition-colors">
+                                Software Engineering                            </h3>
+                            <p class="text-xs text-zinc-400 font-light mt-0.5">
+                                วิศวกรรมซอฟต์แวร์                            </p>
+                        </div>
+                        <p class="text-xs text-zinc-400 leading-relaxed">
+                            Cloud-native microservices architecture, DevOps CI/CD pipelines, and enterprise-grade web platforms.                        </p>
+                    </div>
+
+                    <div class="pt-6 border-t border-zinc-800/80 mt-6 flex items-center justify-between text-xs">
+                        <span class="text-zinc-500">
+                            2 projects                        </span>
+                        <span class="text-[#4ade80] font-medium group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                            <span>Explore Projects</span>
+                            <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- 4. DTBI -->
+                <a 
+                    href="showcase.php?major=DTBI" 
+                    class="group relative rounded-3xl bg-zinc-900/40 border border-zinc-800/90 hover:border-[#876aa4]/50 hover:bg-[#876aa4]/[0.06] hover:shadow-xl hover:shadow-[#876aa4]/15 p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between"
+                >
+                    <div class="space-y-4">
+                        <div>
+                            <span class="text-2xl font-bold font-mono text-[#c084fc] group-hover:text-white transition-colors">DTBI</span>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white group-hover:text-[#c084fc] transition-colors">
+                                Digital Tech for Business Innovation                            </h3>
+                            <p class="text-xs text-zinc-400 font-light mt-0.5">
+                                เทคโนโลยีดิจิทัลเพื่อการพัฒนานวัตกรรมธุรกิจ                            </p>
+                        </div>
+                        <p class="text-xs text-zinc-400 leading-relaxed">
+                            Data analytics, cross-border e-commerce platforms, FinTech solutions, and digital transformation strategies.                        </p>
+                    </div>
+
+                    <div class="pt-6 border-t border-zinc-800/80 mt-6 flex items-center justify-between text-xs">
+                        <span class="text-zinc-500">
+                            1 projects                        </span>
+                        <span class="text-[#c084fc] font-medium group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                            <span>Explore Projects</span>
+                            <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- 5. MTA -->
+                <a 
+                    href="showcase.php?major=MTA" 
+                    class="group relative rounded-3xl bg-zinc-900/40 border border-zinc-800/90 hover:border-[#f68b32]/50 hover:bg-[#f68b32]/[0.06] hover:shadow-xl hover:shadow-[#f68b32]/15 p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between"
+                >
+                    <div class="space-y-4">
+                        <div>
+                            <span class="text-2xl font-bold font-mono text-[#fb923c] group-hover:text-white transition-colors">MTA</span>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white group-hover:text-[#fb923c] transition-colors">
+                                Multimedia Technology and Animation                            </h3>
+                            <p class="text-xs text-zinc-400 font-light mt-0.5">
+                                เทคโนโลยีมัลติมีเดียและแอนิเมชัน                            </p>
+                        </div>
+                        <p class="text-xs text-zinc-400 leading-relaxed">
+                            3D animation, Unreal/Unity game development, virtual production, creative VFX, and immersive UI/UX design.                        </p>
+                    </div>
+
+                    <div class="pt-6 border-t border-zinc-800/80 mt-6 flex items-center justify-between text-xs">
+                        <span class="text-zinc-500">
+                            1 projects                        </span>
+                        <span class="text-[#fb923c] font-medium group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                            <span>Explore Projects</span>
+                            <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+
+                <!-- 6. DTT -->
+                <a 
+                    href="showcase.php?major=DTT" 
+                    class="group relative rounded-3xl bg-zinc-900/40 border border-zinc-800/90 hover:border-[#1e3a8a]/50 hover:bg-[#1e3a8a]/[0.08] hover:shadow-xl hover:shadow-[#1e3a8a]/15 p-6 sm:p-7 transition-all duration-300 hover:-translate-y-1 flex flex-col justify-between"
+                >
+                    <div class="space-y-4">
+                        <div>
+                            <span class="text-2xl font-bold font-mono text-[#60a5fa] group-hover:text-white transition-colors">DTT</span>
+                        </div>
+                        <div>
+                            <h3 class="text-base font-bold text-white group-hover:text-[#60a5fa] transition-colors">
+                                Digital Transformation Technology                            </h3>
+                            <p class="text-xs text-zinc-400 font-light mt-0.5">
+                                เทคโนโลยีการแปรรูปทางดิจิทัล (ป.โท)                            </p>
+                        </div>
+                        <p class="text-xs text-zinc-400 leading-relaxed">
+                            Postgraduate research on enterprise AI adoption, digital transformation, Smart Cities, and industrial innovations.                        </p>
+                    </div>
+
+                    <div class="pt-6 border-t border-zinc-800/80 mt-6 flex items-center justify-between text-xs">
+                        <span class="text-zinc-500">
+                            1 projects                        </span>
+                        <span class="text-[#60a5fa] font-medium group-hover:translate-x-1 transition-transform inline-flex items-center gap-1">
+                            <span>Explore Projects</span>
+                            <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+                            </svg>
+                        </span>
+                    </div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- 4. SECTION 3: ACADEMIC IMPACT & INDUSTRY DELIVERABLES SHOWCASE              -->
+    <!-- ========================================================================= -->
+    <section class="relative py-16 sm:py-24 border-b border-zinc-800/80 bg-zinc-950/80 z-10">
+        <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                
+                <!-- Left: Narrative -->
+                <div class="space-y-6">
+                    <h2 class="text-2xl sm:text-4xl font-bold tracking-tight text-white leading-tight">
+                        Institutional Capstone Archiving <br class="hidden sm:block"><span class="text-transparent bg-clip-text bg-gradient-to-r from-cyan-400 to-blue-500">Bridging Academic Excellence to Industry</span>                    </h2>
+
+                    <p class="text-sm text-zinc-400 leading-relaxed">
+                        MEMO.ADT serves as the permanent institutional repository systematically preserving student capstone deliverables and research outcomes. Every entry includes verified documentation, playable demos, and source code to empower academic advancement and industry recruitment.                    </p>
+
+                    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                        <div class="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-1.5">
+                            <div class="flex items-center gap-2 text-white font-semibold text-xs">
+                                <svg class="h-4 w-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span>Complete Deliverables</span>
+                            </div>
+                            <p class="text-[11px] text-zinc-400 leading-normal">
+                                Includes verified PDFs, video presentations, and inspectable GitHub source code.                            </p>
+                        </div>
+
+                        <div class="p-4 rounded-2xl bg-zinc-900/60 border border-zinc-800 space-y-1.5">
+                            <div class="flex items-center gap-2 text-white font-semibold text-xs">
+                                <svg class="h-4 w-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+                                </svg>
+                                <span>Instant Data Export</span>
+                            </div>
+                            <p class="text-[11px] text-zinc-400 leading-normal">
+                                One-click CSV & JSON exports for accreditation, research, and institutional reporting.                            </p>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 flex items-center gap-4">
+                        <a 
+                            href="showcase.html" 
+                            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-full bg-cyan-400 hover:bg-cyan-300 text-black text-xs font-semibold transition-all shadow-lg shadow-cyan-400/20 active:scale-95"
+                        >
+                            <span>Explore All Projects</span>
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Right: Visual Card of Assurance Criteria -->
+                <div class="rounded-3xl bg-gradient-to-b from-zinc-900/90 to-zinc-950 p-6 sm:p-8 border border-zinc-800 space-y-6 shadow-2xl">
+                    <div class="flex items-center justify-between border-b border-zinc-800 pb-4">
+                        <span class="text-xs font-mono font-bold uppercase tracking-wider text-cyan-400">
+                            Outcome-Based Deliverables Matrix
+                        </span>
+                        <span class="h-2 w-2 rounded-full bg-emerald-400 animate-pulse"></span>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="flex items-start gap-3">
+                            <span class="flex-shrink-0 h-6 w-6 rounded-lg bg-zinc-800 flex items-center justify-center font-mono text-xs text-white">1</span>
+                            <div>
+                                <h4 class="text-xs font-semibold text-white">Industry-Grade Digital Artifacts</h4>
+                                <p class="text-[11px] text-zinc-400 mt-0.5">
+                                    Production builds, verified GitHub source repositories, and test-ready software.                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <span class="flex-shrink-0 h-6 w-6 rounded-lg bg-zinc-800 flex items-center justify-center font-mono text-xs text-white">2</span>
+                            <div>
+                                <h4 class="text-xs font-semibold text-white">Academic Research & Full Reports</h4>
+                                <p class="text-[11px] text-zinc-400 mt-0.5">
+                                    Complete Capstone PDFs, dual-language abstracts, and standardized academic publications.                                </p>
+                            </div>
+                        </div>
+
+                        <div class="flex items-start gap-3">
+                            <span class="flex-shrink-0 h-6 w-6 rounded-lg bg-zinc-800 flex items-center justify-center font-mono text-xs text-white">3</span>
+                            <div>
+                                <h4 class="text-xs font-semibold text-white">Mentorship & Advisor Endorsement</h4>
+                                <p class="text-[11px] text-zinc-400 mt-0.5">
+                                    Supervised, defense-tested, and endorsed by specialized faculty members across ADT disciplines.                                </p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="pt-4 border-t border-zinc-800 flex items-center justify-between text-xs text-zinc-500">
+                        <span>Mae Fah Luang University</span>
+                        <span class="text-zinc-400 font-mono">School of Applied Digital Technology</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================================================================= -->
+    <!-- 5. QUICK MODAL VIEWER (With Deep-Linking and One-Click Full Share URL)     -->
+    <!-- ========================================================================= -->
+    <div 
+        x-show="activeProject" 
+        x-cloak 
+        class="fixed inset-0 z-50 overflow-y-auto"
+        aria-labelledby="modal-title" 
+        role="dialog" 
+        aria-modal="true"
+    >
+        <!-- Modal Backdrop -->
+        <div 
+            x-show="activeProject"
+            x-transition:enter="ease-out duration-300"
+            x-transition:enter-start="opacity-0"
+            x-transition:enter-end="opacity-100"
+            x-transition:leave="ease-in duration-200"
+            x-transition:leave-start="opacity-100"
+            x-transition:leave-end="opacity-0"
+            class="fixed inset-0 bg-black/85 backdrop-blur-md transition-opacity" 
+            @click="closeProjectModal()"
+        ></div>
+
+        <!-- Modal Dialog Box -->
+        <div class="flex min-h-full items-center justify-center p-3 sm:p-4 text-center">
+            <div 
+                x-show="activeProject"
+                x-transition:enter="ease-out duration-300"
+                x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave="ease-in duration-200"
+                x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+                x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+                class="relative transform overflow-hidden rounded-3xl bg-zinc-950 border border-zinc-800 text-left shadow-2xl transition-all sm:my-8 w-full max-w-4xl"
+            >
+                <!-- Close Button -->
+                <button 
+                    @click="closeProjectModal()" 
+                    class="absolute right-4 top-4 z-20 rounded-full bg-black/60 p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 backdrop-blur-md transition-colors"
+                    aria-label="Close"
+                >
+                    <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                    </svg>
+                </button>
+
+                <template x-if="activeProject">
+                    <div class="space-y-6">
+                        <!-- Top Media Banner: YouTube Video or Cover Image -->
+                        <div class="relative w-full aspect-video bg-black overflow-hidden rounded-t-3xl">
+                            <template x-if="activeProject.video_url">
+                                <iframe 
+                                    :src="activeProject.video_url" 
+                                    class="w-full h-full border-0" 
+                                    allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
+                                    allowfullscreen
+                                ></iframe>
+                            </template>
+                            <template x-if="!activeProject.video_url">
+                                <img 
+                                    :src="activeProject.cover_image" 
+                                    :alt="getProjectTitle(activeProject)" 
+                                    class="w-full h-full object-cover"
+                                >
+                            </template>
+                            <div class="absolute inset-0 pointer-events-none bg-gradient-to-t from-zinc-950 via-transparent to-transparent"></div>
+                        </div>
+
+                        <!-- Modal Content Body -->
+                        <div class="px-6 sm:px-8 pb-8 space-y-6">
+                            
+                            <!-- Badges & Action Bar -->
+                            <div class="flex flex-wrap items-center justify-between gap-3">
+                                <div class="flex flex-wrap items-center gap-2">
+                                    <span 
+                                        class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-mono font-bold bg-black/80 backdrop-blur-md border shadow-sm"
+                                        :style="'border-color: ' + getMajorTheme(activeProject.major).border + '; box-shadow: 0 0 10px ' + getMajorTheme(activeProject.major).glow + ';'"
+                                    >
+                                        <span 
+                                            class="h-2 w-2 rounded-full" 
+                                            :style="'background-color: ' + getMajorTheme(activeProject.major).hex + '; box-shadow: 0 0 6px ' + getMajorTheme(activeProject.major).hex + ';'"
+                                        ></span>
+                                        <span :style="'color: ' + getMajorTheme(activeProject.major).text + ';'" x-text="activeProject.major"></span>
+                                    </span>
+                                    <span class="px-3 py-1 rounded-full text-xs bg-zinc-800 text-zinc-300 font-mono" x-text="getYearLabel(activeProject.year)"></span>
+                                    <template x-if="activeProject.award">
+                                        <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-medium bg-amber-500/90 text-black shadow-sm">
+                                            <svg class="h-3.5 w-3.5" fill="currentColor" viewBox="0 0 20 20">
+                                                <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/>
+                                            </svg>
+                                            <span x-text="activeProject.award"></span>
+                                        </span>
+                                    </template>
+                                </div>
+
+                                <!-- Share Button (Deep Linking) -->
+                                <button 
+                                    @click="shareProject(activeProject)"
+                                    type="button"
+                                    class="inline-flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-900/80 hover:bg-zinc-800 px-4 py-2 text-xs font-medium text-white transition-all active:scale-95 shadow-sm"
+                                >
+                                    <svg class="h-4 w-4 text-cyan-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"/>
+                                    </svg>
+                                    <span x-text="copiedShare ? 'Link Copied!' : 'Share Project'"></span>
+                                </button>
+                            </div>
+
+                            <!-- Title -->
+                            <div class="space-y-1">
+                                <h2 class="text-xl sm:text-2xl font-bold text-white tracking-tight leading-snug" x-text="getProjectTitle(activeProject)"></h2>
+                                <template x-if="getProjectSubtitle(activeProject)">
+                                    <p class="text-xs sm:text-sm text-zinc-400 italic" x-text="getProjectSubtitle(activeProject)"></p>
+                                </template>
+                            </div>
+
+                            <!-- Deliverables Actions (Live Demo, GitHub, PDF Report) -->
+                            <div class="flex flex-wrap items-center gap-3 pt-2">
+                                <template x-if="activeProject.live_demo_url">
+                                    <a :href="activeProject.live_demo_url" target="_blank" class="inline-flex items-center gap-2 rounded-full bg-cyan-400 hover:bg-cyan-300 text-black px-4 py-2 text-xs font-semibold transition-all">
+                                        <span>Live Demo</span>
+                                        <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+                                    </a>
+                                </template>
+
+                                <template x-if="activeProject.github_url">
+                                    <a :href="activeProject.github_url" target="_blank" class="inline-flex items-center gap-2 rounded-full border border-zinc-700 bg-zinc-900 hover:bg-zinc-800 text-white px-4 py-2 text-xs font-medium transition-all">
+                                        <svg class="h-3.5 w-3.5 fill-current" viewBox="0 0 24 24"><path d="M12 0C5.37 0 0 5.37 0 12c0 5.31 3.435 9.795 8.205 11.385.6.105.825-.255.825-.57 0-.285-.015-1.23-.015-2.235-3.015.555-3.795-.735-4.035-1.41-.135-.345-.72-1.41-1.23-1.695-.42-.225-1.02-.78-.015-.795.945-.015 1.62.87 1.845 1.23 1.08 1.815 2.805 1.305 3.495.99.105-.78.42-1.305.765-1.605-2.67-.3-5.46-1.335-5.46-5.925 0-1.305.465-2.385 1.23-3.225-.12-.3-.54-1.53.12-3.18 0 0 1.005-.315 3.3 1.23.96-.27 1.98-.405 3-.405s2.04.135 3 .405c2.295-1.56 3.3-1.23 3.3-1.23.66 1.65.24 2.88.12 3.18.765.84 1.23 1.905 1.23 3.225 0 4.605-2.805 5.625-5.475 5.925.435.375.81 1.095.81 2.22 0 1.605-.015 2.895-.015 3.3 0 .315.225.69.825.57A12.02 12.02 0 0024 12c0-6.63-5.37-12-12-12z"/></svg>
+                                        <span>GitHub Repository</span>
+                                    </a>
+                                </template>
+
+                                <template x-if="activeProject.has_report">
+                                    <a :href="activeProject.report_file_url" target="_blank" class="inline-flex items-center gap-2 rounded-full border border-cyan-800/60 bg-cyan-950/40 hover:bg-cyan-900/50 text-cyan-300 px-4 py-2 text-xs font-medium transition-all">
+                                        <svg class="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/></svg>
+                                        <span>Download Full Report</span>
+                                    </a>
+                                </template>
+                            </div>
+
+                            <!-- Abstracts (TH & EN) -->
+                            <div class="space-y-4 pt-4 border-t border-zinc-800/80">
+                                <div>
+                                    <h4 class="text-xs font-semibold text-zinc-300 uppercase tracking-wider mb-1.5">Abstract</h4>
+                                    <p class="text-xs text-zinc-300 leading-relaxed" x-text="isEn ? (activeProject.abstract_en || activeProject.abstract_th || activeProject.description) : (activeProject.abstract_th || activeProject.description)"></p>
+                                </div>
+                                <template x-if="isEn ? (activeProject.abstract_th && activeProject.abstract_en) : activeProject.abstract_en">
+                                    <div>
+                                        <h4 class="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-1.5" x-text="isEn ? 'Thai Abstract (บทคัดย่อภาษาไทย)' : 'Abstract (English)'"></h4>
+                                        <p class="text-xs text-zinc-400 leading-relaxed font-light" x-text="isEn ? activeProject.abstract_th : activeProject.abstract_en"></p>
+                                    </div>
+                                </template>
+                            </div>
+
+                            <!-- Team Members & Advisor -->
+                            <div class="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-4 border-t border-zinc-800/80">
+                                <!-- Members -->
+                                <div>
+                                    <h4 class="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Project Team Members</h4>
+                                    <div class="space-y-2">
+                                        <template x-for="mem in activeProject.members" :key="mem.id || mem.name">
+                                            <div class="flex items-center justify-between text-xs bg-zinc-900/60 p-2.5 rounded-xl border border-zinc-800/60">
+                                                <div>
+                                                    <div class="font-medium text-white" x-text="mem.name"></div>
+                                                    <div class="text-[11px] text-zinc-500 font-mono" x-text="(isEn ? 'Student ID: ' : 'รหัสนักศึกษา: ') + (mem.id || '-')"></div>
+                                                </div>
+                                                <div class="text-right">
+                                                    <div class="text-[11px] text-cyan-400" x-text="mem.role || 'Member'"></div>
+                                                    <template x-if="mem.portfolio">
+                                                        <a :href="mem.portfolio" target="_blank" class="text-[10px] text-zinc-400 hover:text-white underline">Portfolio ↗</a>
+                                                    </template>
+                                                </div>
+                                            </div>
+                                        </template>
+                                    </div>
+                                </div>
+
+                                <!-- Advisor & Metadata -->
+                                <div>
+                                    <h4 class="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-3">Faculty Advisors & Discipline</h4>
+                                    <div class="space-y-2 text-xs">
+                                        <div class="bg-zinc-900/60 p-2.5 rounded-xl border border-zinc-800/60">
+                                            <div class="text-zinc-500 text-[11px]">Lead Advisor:</div>
+                                            <div class="font-medium text-white" x-text="activeProject.advisor_name || activeProject.advisor || (isEn ? 'Department Faculty Members' : 'คณาจารย์ประจำหลักสูตร')"></div>
+                                        </div>
+                                        <div class="bg-zinc-900/60 p-2.5 rounded-xl border border-zinc-800/60">
+                                            <div class="text-zinc-500 text-[11px]">Academic Discipline:</div>
+                                            <div class="font-medium text-white" x-text="getMajorFullName(activeProject.major)"></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Tech Tags Cloud -->
+                            <div class="pt-4 border-t border-zinc-800/80">
+                                <h4 class="text-xs font-semibold text-zinc-400 uppercase tracking-wider mb-2">Technologies & Tools Stack</h4>
+                                <div class="flex flex-wrap gap-1.5">
+                                    <template x-for="tag in activeProject.tags" :key="tag">
+                                        <span class="px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800 text-xs font-mono text-zinc-300" x-text="tag"></span>
+                                    </template>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </template>
+            </div>
+        </div>
+    </div>
+    </main>
+
+    <!-- Shared Modals (Room Code Entry & Faculty Login) -->
+    
+<!-- ========================================================================= -->
+<!-- 1. MODAL: เพิ่มงานด้วย ROOM CODE (Student Project Submission)              -->
+<!-- ========================================================================= -->
+<div 
+    x-show="openRoomModal" 
+    x-cloak 
+    class="fixed inset-0 z-50 overflow-y-auto"
+    aria-labelledby="room-modal-title" 
+    role="dialog" 
+    aria-modal="true"
+>
+    <!-- Darkened Backdrop with Blur -->
+    <div 
+        x-show="openRoomModal"
+        x-transition:enter="ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 bg-black/85 backdrop-blur-md transition-opacity" 
+        @click="openRoomModal = false"
+    ></div>
+
+    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+        <div 
+            x-show="openRoomModal"
+            x-transition:enter="ease-out duration-300"
+            x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+            x-transition:leave="ease-in duration-200"
+            x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+            x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            class="relative transform overflow-hidden rounded-3xl bg-zinc-950 border border-zinc-800 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-lg p-6 sm:p-8"
+        >
+            <!-- Close Button -->
+            <button 
+                @click="openRoomModal = false" 
+                class="absolute right-5 top-5 rounded-full p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+                aria-label="Close"
+            >
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+
+            <!-- Modal Content -->
+            <div class="space-y-6">
+                <!-- Icon Header -->
+                <div class="flex items-center gap-4">
+                    <div class="flex h-12 w-12 items-center justify-center rounded-2xl bg-cyan-950/80 border border-cyan-800/80 text-cyan-400 shadow-inner">
+                        <svg class="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/>
+                        </svg>
+                    </div>
+                    <div>
+                        <h3 id="room-modal-title" class="text-lg font-bold text-white tracking-tight">
+                            Submit Project with Room Code                        </h3>
+                        <p class="text-xs text-zinc-400">
+                            Enter the submission room code provided by your course instructor or advisor                        </p>
+                    </div>
+                </div>
+
+                <!-- Room Code Form -->
+                <form action="submit.php" method="GET" class="space-y-4">
+                    <div>
+                        <label for="room-code-input" class="block text-xs font-medium text-zinc-300 mb-2">
+                            Room Code                        </label>
+                        <div class="relative">
+                            <input 
+                                id="room-code-input" 
+                                type="text" 
+                                name="code"
+                                required
+                                placeholder="e.g. SE-2567-01, CE-2567-01"
+                                class="w-full rounded-2xl bg-zinc-900 border border-zinc-800 px-4 py-3 text-sm font-mono tracking-wider text-white placeholder-zinc-500 focus:border-cyan-400 focus:outline-none focus:ring-1 focus:ring-cyan-400 uppercase"
+                            >
+                        </div>
+                    </div>
+
+                    <!-- Quick Demo Room Code Chips for Instant Testing -->
+                    <div class="pt-1">
+                        <div class="text-[11px] text-zinc-500 mb-2 flex items-center justify-between">
+                            <span>Sample Room Codes for testing:</span>
+                            <span class="text-cyan-400">Click to fill</span>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <button 
+                                type="button" 
+                                onclick="document.getElementById('room-code-input').value = 'SE-2567-01'"
+                                class="px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-cyan-500/80 hover:bg-cyan-950/30 text-xs font-mono text-zinc-300 transition-colors"
+                            >
+                                SE-2567-01
+                            </button>
+                            <button 
+                                type="button" 
+                                onclick="document.getElementById('room-code-input').value = 'CE-2567-01'"
+                                class="px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-cyan-500/80 hover:bg-cyan-950/30 text-xs font-mono text-zinc-300 transition-colors"
+                            >
+                                CE-2567-01
+                            </button>
+                            <button 
+                                type="button" 
+                                onclick="document.getElementById('room-code-input').value = 'MTA-2567-01'"
+                                class="px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-cyan-500/80 hover:bg-cyan-950/30 text-xs font-mono text-zinc-300 transition-colors"
+                            >
+                                MTA-2567-01
+                            </button>
+                            <button 
+                                type="button" 
+                                onclick="document.getElementById('room-code-input').value = 'DTBI-2567-01'"
+                                class="px-2.5 py-1 rounded-lg bg-zinc-900 border border-zinc-800 hover:border-cyan-500/80 hover:bg-cyan-950/30 text-xs font-mono text-zinc-300 transition-colors"
+                            >
+                                DTBI-2567-01
+                            </button>
+                        </div>
+                    </div>
+
+                    <!-- Submit Button -->
+                    <div class="pt-3">
+                        <button 
+                            type="submit" 
+                            class="w-full rounded-2xl bg-cyan-400 hover:bg-cyan-300 text-black py-3 px-4 font-semibold text-sm transition-all active:scale-95 shadow-lg shadow-cyan-400/20 flex items-center justify-center gap-2"
+                        >
+                            <span>Enter Room</span>
+                            <svg class="h-4 w-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"/>
+                            </svg>
+                        </button>
+                    </div>
+                </form>
+
+                <!-- Project Edit Token Recovery Option -->
+                <div class="pt-4 border-t border-zinc-800/80">
+                    <form action="submit.php" method="GET" class="space-y-2">
+                        <div class="flex items-center justify-between text-xs">
+                            <span class="text-zinc-400 font-medium">Already submitted and need to edit?</span>
+                        </div>
+                        <div class="flex gap-2">
+                            <input 
+                                type="text" 
+                                name="token" 
+                                placeholder="Enter Edit Token (e.g. EDIT-SE2567-B42)"
+                                class="flex-1 rounded-xl bg-zinc-900/60 border border-zinc-800 px-3 py-2 text-xs font-mono text-white placeholder-zinc-500 focus:border-zinc-600 focus:outline-none uppercase"
+                            >
+                            <button 
+                                type="submit" 
+                                class="px-3.5 py-2 rounded-xl bg-zinc-900 border border-zinc-700 hover:border-zinc-500 text-xs text-zinc-300 hover:text-white transition-colors"
+                            >
+                                Edit Project                            </button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- ========================================================================= -->
+<!-- 2. MODAL: เข้าสู่ระบบอาจารย์ / เจ้าหน้าที่ (Faculty & Staff Authentication)   -->
+<!-- ========================================================================= -->
+<div 
+    x-show="openLoginModal" 
+    x-cloak 
+    class="fixed inset-0 z-50 overflow-y-auto"
+    aria-labelledby="login-modal-title" 
+    role="dialog" 
+    aria-modal="true"
+>
+    <!-- Darkened Backdrop -->
+    <div 
+        x-show="openLoginModal"
+        x-transition:enter="ease-out duration-300"
+        x-transition:enter-start="opacity-0"
+        x-transition:enter-end="opacity-100"
+        x-transition:leave="ease-in duration-200"
+        x-transition:leave-start="opacity-100"
+        x-transition:leave-end="opacity-0"
+        class="fixed inset-0 bg-black/85 backdrop-blur-md transition-opacity" 
+        @click="openLoginModal = false"
+    ></div>
+
+    <div class="flex min-h-full items-center justify-center p-4 text-center sm:p-0">
+        <div 
+            x-show="openLoginModal"
+            x-transition:enter="ease-out duration-300"
+            x-transition:enter-start="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            x-transition:enter-end="opacity-100 translate-y-0 sm:scale-100"
+            x-transition:leave="ease-in duration-200"
+            x-transition:leave-start="opacity-100 translate-y-0 sm:scale-100"
+            x-transition:leave-end="opacity-0 translate-y-4 sm:translate-y-0 sm:scale-95"
+            class="relative transform overflow-hidden rounded-3xl bg-zinc-950 border border-zinc-800 text-left shadow-2xl transition-all sm:my-8 sm:w-full sm:max-w-md p-6 sm:p-8"
+        >
+            <!-- Close Button -->
+            <button 
+                @click="openLoginModal = false" 
+                class="absolute right-5 top-5 rounded-full p-2 text-zinc-400 hover:text-white hover:bg-zinc-800 transition-colors"
+                aria-label="Close"
+            >
+                <svg class="h-5 w-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"/>
+                </svg>
+            </button>
+
+            <!-- Content -->
+            <div class="space-y-6">
+                <!-- Header -->
+                <div class="text-center space-y-2">
+                    <div class="mx-auto flex h-14 w-14 items-center justify-center rounded-2xl bg-zinc-900 border border-zinc-800 text-white shadow-inner">
+                        <svg class="h-7 w-7 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"/>
+                        </svg>
+                    </div>
+                    <h3 id="login-modal-title" class="text-xl font-bold text-white tracking-tight">
+                        Faculty & Admin Portal                    </h3>
+                    <p class="text-xs text-zinc-400 max-w-xs mx-auto">
+                        Sign in with your Mae Fah Luang University Google Workspace account (@mfu.ac.th)                    </p>
+                </div>
+
+                <!-- Google MFU SSO Simulation Form -->
+                <form action="admin.php" method="POST" class="space-y-4">
+                    <input type="hidden" name="action" value="login">
+
+                    <div class="space-y-2">
+                        <label class="block text-xs font-medium text-zinc-400">Select Demo Faculty Account:</label>
+                        <select 
+                            name="faculty_email" 
+                            class="w-full rounded-2xl bg-zinc-900 border border-zinc-800 px-4 py-3 text-xs text-white focus:border-cyan-400 focus:outline-none"
+                        >
+                            <option value="nanticha.sri@mfu.ac.th">ผศ.ดร. นันทิชา ศรีสุข (SE / MTA) - อาจารย์ที่ปรึกษา</option>
+                            <option value="panupong.jai@mfu.ac.th">รศ.ดร. ภาณุพงศ์ ใจมั่น (SE / CE) - ประธานหลักสูตร</option>
+                            <option value="krisana.boo@mfu.ac.th">ดร. กฤษณา บุญส่งเสริม (DTBI) - อาจารย์ประจำสาขา</option>
+                            <option value="admin.adt@mfu.ac.th">งานวิชาการและระบบคลังผลงาน ADT (System Admin)</option>
+                        </select>
+                    </div>
+
+                    <!-- Single Sign-On Button -->
+                    <button 
+                        type="submit" 
+                        class="w-full rounded-2xl bg-white hover:bg-zinc-200 text-black py-3.5 px-4 font-semibold text-xs tracking-wide transition-all active:scale-95 shadow-md flex items-center justify-center gap-3"
+                    >
+                        <!-- Google "G" Icon -->
+                        <svg class="h-4 w-4" viewBox="0 0 24 24">
+                            <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+                            <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+                            <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/>
+                            <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/>
+                        </svg>
+                        <span>Sign in with MFU Google Account</span>
+                    </button>
+                </form>
+
+                <div class="pt-2 text-center text-[11px] text-zinc-500">
+                    <span>* General public and students do not need to sign in; explore showcase or enter room codes anytime.</span>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+    <!-- Global Footer -->
+    <footer class="border-t border-zinc-800/80 bg-black/90 text-zinc-400 py-14 sm:py-16 text-xs relative z-10">
+    <div class="mx-auto max-w-7xl px-4 sm:px-6 lg:px-8">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-10 lg:gap-8 mb-12">
+            
+            <!-- Col 1 & 2: Brand & Mission -->
+            <div class="lg:col-span-2 space-y-4">
+                <div class="flex items-center gap-3">
+                    <img src="assets/adt-logo.png" alt="ADT Logo" class="h-8 w-auto object-contain">
+                    <span class="h-5 w-px bg-zinc-800"></span>
+                    <img src="assets/mfu-logo.png" alt="MFU Logo" class="h-8 w-auto object-contain">
+                    <span class="text-base font-bold font-mono tracking-tight text-white ml-1">
+                        MEMO<span class="text-[#1CA4E1]">.</span>ADT
+                    </span>
+                </div>
+                <p class="text-zinc-400 text-xs leading-relaxed max-w-sm">
+                    Living digital repository and talent showcase of the School of Applied Digital Technology, Mae Fah Luang University, preserving student capstones and applied tech innovations.                </p>
+                <div class="flex items-center gap-2 pt-2 text-[11px] font-mono text-zinc-500">
+                    <span class="text-zinc-400">Living Student Innovation Archive</span>
+                    <span>•</span>
+                    <span>Academic Year 2024–2025</span>
+                </div>
+            </div>
+
+            <!-- Col 3: 6 Study Programmes -->
+            <div>
+                <h4 class="text-xs font-semibold uppercase tracking-wider text-white mb-4">
+                    6 ADT Disciplines                </h4>
+                <ul class="space-y-2.5">
+                    <li>
+                        <a href="showcase.php?major=CE" class="hover:text-white transition-colors flex items-center gap-2">
+                            <span class="font-mono text-[11px] font-bold text-[#f87171]">CE</span>
+                            <span>Computer Engineering</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="showcase.php?major=DCE" class="hover:text-white transition-colors flex items-center gap-2">
+                            <span class="font-mono text-[11px] font-bold text-[#fb7185]">DCE</span>
+                            <span>Digital & Communication Engineering</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="showcase.php?major=SE" class="hover:text-white transition-colors flex items-center gap-2">
+                            <span class="font-mono text-[11px] font-bold text-[#4ade80]">SE</span>
+                            <span>Software Engineering</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="showcase.php?major=DTBI" class="hover:text-white transition-colors flex items-center gap-2">
+                            <span class="font-mono text-[11px] font-bold text-[#c084fc]">DTBI</span>
+                            <span>Digital Tech for Business Innovation</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="showcase.php?major=MTA" class="hover:text-white transition-colors flex items-center gap-2">
+                            <span class="font-mono text-[11px] font-bold text-[#fb923c]">MTA</span>
+                            <span>Multimedia Tech & Animation</span>
+                        </a>
+                    </li>
+                    <li>
+                        <a href="showcase.php?major=DTT" class="hover:text-white transition-colors flex items-center gap-2">
+                            <span class="font-mono text-[11px] font-bold text-[#60a5fa]">DTT</span>
+                            <span>Digital Transformation (M.Sc.)</span>
+                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Col 4: Quick Portals -->
+            <div>
+                <h4 class="text-xs font-semibold uppercase tracking-wider text-white mb-4">
+                    Systems & Portals                </h4>
+                <ul class="space-y-2.5">
+                    <li>
+                        <a href="about.html" class="hover:text-white transition-colors">
+                            About Platform & ADT                        </a>
+                    </li>
+                    <li>
+                        <a href="showcase.html" class="hover:text-white transition-colors">
+                            All Projects (Showcase Gallery)                        </a>
+                    </li>
+                    <li>
+                        <a href="submit.html" class="hover:text-white transition-colors">
+                            Submit with Room Code                        </a>
+                    </li>
+                    <li>
+                        <a href="showcase.html" class="hover:text-white transition-colors">
+                            Faculty Portal                        </a>
+                    </li>
+                    <li>
+                        <a href="admin.php?tab=export" class="hover:text-white transition-colors">
+                            Project Data Export Suite                        </a>
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Col 5: Institutional Contacts -->
+            <div>
+                <h4 class="text-xs font-semibold uppercase tracking-wider text-white mb-4">
+                    School of ADT, MFU                </h4>
+                <div class="space-y-2.5 text-xs text-zinc-400">
+                    <p>School of Applied Digital Technology</p>
+                    <p>Mae Fah Luang University</p>
+                    <p>333 Moo 1, Tha Sut, Mueang, Chiang Rai 57100</p>
+                    <div class="pt-2">
+                        <a href="https://adt.mfu.ac.th" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-1.5 text-cyan-400 hover:text-cyan-300">
+                            <span>adt.mfu.ac.th</span>
+                            <svg class="h-3 w-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/>
+                            </svg>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="pt-8 border-t border-zinc-800/80 flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-zinc-500">
+            <div>
+                © 2024–2025 School of Applied Digital Technology, Mae Fah Luang University. All rights reserved.            </div>
+            <div class="flex items-center gap-6">
+                <span>Designed for Academic Preservation & Global Impact</span>
+                <span class="text-zinc-700">|</span>
+                <span class="text-cyan-500 font-mono">v1.2 Production</span>
+            </div>
+        </div>
+    </div>
+</footer>
+
+    <!-- Alpine.js Application State & 3D Canvas Controller -->
+    <script>
+        function homeApp() {
+            return {
+                isScrolled: false,
+                mobileMenuOpen: false,
+                openRoomModal: false,
+                openLoginModal: false,
+                currentLang: 'en',
+                activeProject: null,
+                copiedShare: false,
+                projects: [{"id":"proj-6af8be133fe3f","room_id":"room-001","edit_token":"EDIT-SE-040E4B","slug":"project-33bb64","title_th":"ระบบทดสอบส่งงานอัตโนมัติ 2567","title_en":"","description":"โครงงานทดสอบการส่งผลงานเข้าระบบอัตโนมัติ","category":"Senior Project","academic_year":"2567","major_code":"SE","advisor_name":"ผศ.ดร. นันทิชา ศรีสุข","co_advisor":"","abstract_th":"","abstract_en":"","cover_image_url":"https:\/\/images.unsplash.com\/photo-1526374965328-7f61d4dc18c5?auto=format\u0026fit=crop\u0026w=1200\u0026q=80","video_url":"","live_demo_url":"","github_url":"","report_file_url":"assets\/sample-report.pdf","poster_file_url":"","award_title":"","is_featured":"1","status":"published","revision_note":null,"created_at":"2026-11-14 20:01:23","updated_at":"2026-11-14 20:01:23","major_name":"วิศวกรรมซอฟต์แวร์","major_degree":"วศ.บ. (B.Eng.)","major_badge":"วิศวกรรมซอฟต์แวร์","members":[{"name":"สมชาย รักเรียน","id":"6431502999","role":"Lead Developer","portfolio":""}],"tags":[],"has_report":true,"cover_image":"https:\/\/images.unsplash.com\/photo-1526374965328-7f61d4dc18c5?auto=format\u0026fit=crop\u0026w=1200\u0026q=80","major":"SE","year":"2567","award":"","view_count":691},{"id":"proj-003","room_id":"room-003","edit_token":"EDIT-CE2567-C19","slug":"tea-farm-iot","title_th":"ระบบเครือข่ายเซนเซอร์ IoT ไร้สายและการทำนายสภาพดินในไร่ชาดอยแม่สลอง","title_en":"LoRaWAN Edge-AI Soil Intelligence \u0026 Microclimate Monitoring for Highland Tea Farms","description":"โครงงานฮาร์ดแวร์ IoT ผสานโมเดล Machine Learning บน Edge Device ประหยัดพลังงานแสงอาทิตย์ ส่งสัญญาณผ่าน LoRaWAN ไกลกว่า 15 กิโลเมตร","category":"Senior Project","academic_year":"2567","major_code":"CE","advisor_name":"ผศ.ดร. พงษ์ศิริ บุญมี","co_advisor":null,"abstract_th":"การพัฒนาอุปกรณ์วัดความชื้นและแร่ธาตุ NPK ในดินแบบฝังตัว ใช้พลังงานแสงอาทิตย์ส่งข้อมูลสภาพแวดล้อมไปยัง Gateway ในพื้นที่หุบเขาดอยแม่สลอง พร้อมโมเดล TinyML ทำนายเวลาที่เหมาะสมในการรดน้ำและเก็บเกี่ยวชาอู่หลง","abstract_en":"Solar-powered LoRaWAN mesh network and TinyML edge intelligence deployed in Doi Mae Salong tea plantations for precision microclimate prediction.","cover_image_url":"https:\/\/images.unsplash.com\/photo-1530836369250-ef72a3f5cda8?auto=format\u0026fit=crop\u0026w=1200\u0026q=80","video_url":"https:\/\/www.youtube.com\/embed\/dQw4w9WgXcQ","live_demo_url":"https:\/\/dashboard.example.com","github_url":"https:\/\/github.com","report_file_url":"assets\/sample-report.pdf","poster_file_url":null,"award_title":"TICTA Thailand ICT Awards - Best AgroTech","is_featured":"1","status":"published","revision_note":null,"created_at":"2026-11-14 19:56:01","updated_at":"2026-11-14 19:56:01","major_name":"วิศวกรรมคอมพิวเตอร์","major_degree":"วศ.บ. (B.Eng.)","major_badge":"วิศวกรรมคอมพิวเตอร์","members":[{"name":"อนุชิต แก้วสุริยา","id":"6331503004","role":"Embedded Systems Lead","portfolio":"https:\/\/github.com"},{"name":"เกวลิน พิสุทธิ์","id":"6331503021","role":"Edge ML Developer","portfolio":"https:\/\/github.com"}],"tags":["LoRaWAN","ESP32","TinyML","Python","MQTT","InfluxDB","Grafana"],"has_report":true,"cover_image":"https:\/\/images.unsplash.com\/photo-1530836369250-ef72a3f5cda8?auto=format\u0026fit=crop\u0026w=1200\u0026q=80","major":"CE","year":"2567","award":"TICTA Thailand ICT Awards - Best AgroTech","view_count":1028},{"id":"proj-002","room_id":"room-001","edit_token":"EDIT-SE2567-B42","slug":"telehealth-mfu","title_th":"ระบบการแพทย์ทางไกลและการจัดการคิวอัจฉริยะสำหรับโรงพยาบาลศูนย์การแพทย์ มฟล.","title_en":"Cloud-Native Telehealth \u0026 Intelligent Queue Orchestration System","description":"แพลตฟอร์มการแพทย์ทางไกลแบบครบวงจร รองรับวิดีโอคอลความหน่วงต่ำ ตรวจวัดสัญญาณชีพอัตโนมัติด้วย WebRTC และสถาปัตยกรรม Microservices บน Kubernetes","category":"Senior Project","academic_year":"2567","major_code":"SE","advisor_name":"รศ.ดร. ภาณุพงศ์ ใจมั่น","co_advisor":null,"abstract_th":"ระบบ Telehealth ที่ออกแบบมาสำหรับพื้นที่ห่างไกลในภาคเหนือตอนบน รองรับการทำงานในสภาวะอินเทอร์เน็ตความเร็วต่ำ พร้อมระบบกระจายคิวแบบ Real-time ด้วย Redis และ WebSocket เพื่อลดเวลารอคอยของผู้ป่วยในโรงพยาบาลได้มากกว่า 45%","abstract_en":"An end-to-end cloud-native telehealth architecture tailored for highland communities, featuring dynamic bitrate video streaming and real-time queue orchestration.","cover_image_url":"https:\/\/images.unsplash.com\/photo-1576091160399-112ba8d25d1d?auto=format\u0026fit=crop\u0026w=1200\u0026q=80","video_url":"https:\/\/www.youtube.com\/embed\/dQw4w9WgXcQ","live_demo_url":"https:\/\/example.com\/demo","github_url":"https:\/\/github.com\/example\/telehealth","report_file_url":"assets\/sample-report.pdf","poster_file_url":"https:\/\/images.unsplash.com\/photo-1504813184591-01572f98c85f?auto=format\u0026fit=crop\u0026w=1200\u0026q=80","award_title":"MFU Innovation Award 2024 - Gold Medal","is_featured":"1","status":"published","revision_note":null,"created_at":"2026-11-14 19:56:00","updated_at":"2026-11-14 19:56:00","major_name":"วิศวกรรมซอฟต์แวร์","major_degree":"วศ.บ. (B.Eng.)","major_badge":"วิศวกรรมซอฟต์แวร์","members":[{"name":"ธนกานต์ สิทธิชัย","id":"6331502012","role":"Full-stack Engineer","portfolio":"https:\/\/github.com"},{"name":"ปณิดา รัตนตรัย","id":"6331502045","role":"DevOps \u0026 Cloud Architect","portfolio":"https:\/\/linkedin.com"},{"name":"วีรภัทร ชูเกียรติ","id":"6331502088","role":"UI\/UX Researcher","portfolio":"https:\/\/dribbble.com"}],"tags":["React","Node.js","Go","Kubernetes","WebRTC","Redis","Docker"],"has_report":true,"cover_image":"https:\/\/images.unsplash.com\/photo-1576091160399-112ba8d25d1d?auto=format\u0026fit=crop\u0026w=1200\u0026q=80","major":"SE","year":"2567","award":"MFU Innovation Award 2024 - Gold Medal","view_count":396}],
+
+                get isEn() {
+                    return this.currentLang === 'en';
+                },
+
+                getProjectTitle(p) {
+                    if (!p) return '';
+                    if (this.isEn) {
+                        return p.title_en || p.title_th || '';
+                    }
+                    return p.title_th || p.title_en || '';
+                },
+
+                getProjectSubtitle(p) {
+                    if (!p) return '';
+                    if (this.isEn) {
+                        return p.title_en && p.title_th ? p.title_th : '';
+                    }
+                    return p.title_en || '';
+                },
+
+                getProjectDescription(p) {
+                    if (!p) return '';
+                    if (this.isEn) {
+                        return p.abstract_en || p.description || p.abstract_th || '';
+                    }
+                    return p.description || p.abstract_th || p.abstract_en || '';
+                },
+
+                getYearLabel(year) {
+                    if (!year) return '';
+                    return this.isEn ? 'Cohort ' + year : 'ปีการศึกษา ' + year;
+                },
+
+                getMajorFullName(major) {
+                    const namesTh = {
+                        'SE': 'วิศวกรรมซอฟต์แวร์',
+                        'DTBI': 'เทคโนโลยีดิจิทัลเพื่อการพัฒนานวัตกรรมทางธุรกิจ',
+                        'MTA': 'เทคโนโลยีมัลติมีเดียและการสร้างภาพเคลื่อนไหว',
+                        'CE': 'วิศวกรรมคอมพิวเตอร์',
+                        'DCE': 'วิศวกรรมการสื่อสารดิจิทัล',
+                        'DTT': 'เทคโนโลยีการแปลงเป็นดิจิทัล (ป.โท)'
+                    };
+                    const namesEn = {
+                        'SE': 'Software Engineering',
+                        'DTBI': 'Digital Technology for Business Innovation',
+                        'MTA': 'Multimedia Technology and Animation',
+                        'CE': 'Computer Engineering',
+                        'DCE': 'Digital Communication Engineering',
+                        'DTT': 'Digital Transformation Technology (M.Sc.)'
+                    };
+                    const name = this.isEn ? (namesEn[major] || major) : (namesTh[major] || major);
+                    const suffix = this.isEn ? ' (School of ADT)' : ' (สำนักวิชา ADT)';
+                    return name + suffix;
+                },
+
+                getMajorTheme(major) {
+                    const themes = {
+                        'SE':   { name: 'เขียวตอง',   hex: '#21723e', border: 'rgba(33, 114, 62, 0.65)',   text: '#4ade80', glow: 'rgba(33, 114, 62, 0.45)' },
+                        'DTBI': { name: 'พวงอังกาบ', hex: '#876aa4', border: 'rgba(135, 106, 164, 0.65)', text: '#c084fc', glow: 'rgba(135, 106, 164, 0.45)' },
+                        'MTA':  { name: 'เมฆสนธยา',  hex: '#f68b32', border: 'rgba(246, 139, 50, 0.65)',  text: '#fb923c', glow: 'rgba(246, 139, 50, 0.45)' },
+                        'CE':   { name: 'แดงตัด',    hex: '#951519', border: 'rgba(149, 21, 25, 0.7)',    text: '#f87171', glow: 'rgba(149, 21, 25, 0.45)' },
+                        'DCE':  { name: 'ดินแดงตัด', hex: '#76202a', border: 'rgba(118, 32, 42, 0.7)',    text: '#fb7185', glow: 'rgba(118, 32, 42, 0.45)' },
+                        'DTT':  { name: 'น้ำเงิน ADT', hex: '#1e3a8a', border: 'rgba(30, 58, 138, 0.7)',   text: '#60a5fa', glow: 'rgba(30, 58, 138, 0.45)' }
+                    };
+                    return themes[major] || { name: 'ADT', hex: '#1CA4E1', border: 'rgba(28, 164, 225, 0.5)', text: '#38bdf8', glow: 'rgba(28, 164, 225, 0.35)' };
+                },
+
+                initDeepLink() {
+                    const urlParams = new URLSearchParams(window.location.search);
+                    const projectSlug = urlParams.get('project');
+                    if (projectSlug) {
+                        const match = this.projects.find(p => p.slug === projectSlug);
+                        if (match) {
+                            this.openProjectModal(match);
+                        }
+                    }
+                    window.addEventListener('popstate', (e) => {
+                        const params = new URLSearchParams(window.location.search);
+                        const slug = params.get('project');
+                        if (slug) {
+                            const p = this.projects.find(item => item.slug === slug);
+                            if (p) this.activeProject = p;
+                        } else {
+                            this.activeProject = null;
+                        }
+                    });
+                },
+
+                openProjectModalBySlug(slug) {
+                    const p = this.projects.find(item => item.slug === slug);
+                    if (p) {
+                        this.openProjectModal(p);
+                    } else {
+                        window.location.href = 'showcase.php?project=' + encodeURIComponent(slug);
+                    }
+                },
+
+                openProjectModal(project) {
+                    this.activeProject = project;
+                    this.copiedShare = false;
+                    if (project && project.slug) {
+                        const url = new URL(window.location.href);
+                        url.searchParams.set('project', project.slug);
+                        history.pushState({ slug: project.slug }, '', url.toString());
+                    }
+                },
+
+                closeProjectModal() {
+                    this.activeProject = null;
+                    const url = new URL(window.location.href);
+                    url.searchParams.delete('project');
+                    history.pushState({}, '', url.toString());
+                },
+
+                shareProject(project) {
+                    if (!project) return;
+                    const url = window.location.origin + window.location.pathname.replace('index.php', 'showcase.php') + '?project=' + encodeURIComponent(project.slug);
+                    const title = this.getProjectTitle(project);
+                    const desc = this.getProjectDescription(project);
+                    
+                    if (navigator.share) {
+                        navigator.share({
+                            title: title,
+                            text: desc,
+                            url: url
+                        }).catch(() => {});
+                    } else if (navigator.clipboard) {
+                        navigator.clipboard.writeText(url).then(() => {
+                            this.copiedShare = true;
+                            setTimeout(() => { this.copiedShare = false; }, 2500);
+                        });
+                    } else {
+                        prompt(this.isEn ? 'Copy link to this project:' : 'คัดลอกลิงก์ผลงานนี้:', url);
+                    }
+                }
+            }
+        }
+
+        // =========================================================================
+        // HIGH-TECH 3D NESTED CORE & CONSTELLATION NETWORK ENGINE (Canvas)
+        // =========================================================================
+        (function initAmbient3D() {
+            const canvas = document.getElementById('ambient-canvas');
+            if (!canvas) return;
+            const ctx = canvas.getContext('2d');
+
+            let width, height;
+            let mouseX = 0, mouseY = 0;
+            let targetMouseX = 0, targetMouseY = 0;
+            let scrollY = 0;
+
+            function resize() {
+                width = canvas.width = window.innerWidth;
+                height = canvas.height = window.innerHeight;
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            window.addEventListener('mousemove', (e) => {
+                targetMouseX = (e.clientX - width / 2) / (width / 2);
+                targetMouseY = (e.clientY - height / 2) / (height / 2);
+            });
+
+            window.addEventListener('scroll', () => {
+                scrollY = window.pageYOffset;
+            });
+
+            // Particles
+            const particleCount = window.innerWidth < 768 ? 65 : 155;
+            const particles = [];
+            for (let i = 0; i < particleCount; i++) {
+                particles.push({
+                    x: Math.random() * 2000 - 1000,
+                    y: Math.random() * 2000 - 1000,
+                    z: Math.random() * 950 + 120,
+                    vx: (Math.random() - 0.5) * 0.10,
+                    vy: -(Math.random() * 0.16 + 0.04),
+                    vz: (Math.random() - 0.5) * 0.05,
+                    size: Math.random() * 1.6 + 0.9,
+                    pulse: Math.random() * Math.PI * 2
+                });
+            }
+
+            // Geometry: Layer 1 - Outer Grand Icosahedron
+            const phi = (1 + Math.sqrt(5)) / 2;
+            const rawOuterVertices = [
+                [-1, phi, 0], [1, phi, 0], [-1, -phi, 0], [1, -phi, 0],
+                [0, -1, phi], [0, 1, phi], [0, -1, -phi], [0, 1, -phi],
+                [phi, 0, -1], [phi, 0, 1], [-phi, 0, -1], [-phi, 0, 1]
+            ];
+            const outerEdges = [
+                [0,11],[0,5],[0,1],[0,7],[0,10],[1,5],[1,9],[1,8],[1,7],
+                [2,11],[2,4],[2,3],[2,6],[2,10],[3,9],[3,4],[3,6],[3,8],
+                [4,5],[4,9],[4,11],[5,9],[6,7],[6,8],[6,10],[7,8],[7,10],
+                [8,9],[10,11]
+            ];
+
+            // Geometry: Layer 2 - Inner Quantum Octahedron
+            const rawInnerVertices = [
+                [1, 0, 0], [-1, 0, 0],
+                [0, 1, 0], [0, -1, 0],
+                [0, 0, 1], [0, 0, -1]
+            ];
+            const innerEdges = [
+                [0, 2], [0, 3], [0, 4], [0, 5],
+                [1, 2], [1, 3], [1, 4], [1, 5],
+                [2, 4], [4, 3], [3, 5], [5, 2]
+            ];
+
+            let rotX = 0.25, rotY = 0.15, rotZ = 0.1;
+            let lastTime = performance.now();
+
+            function project(vertices, radius, rx, ry, cx, cy) {
+                const cosY = Math.cos(ry), sinY = Math.sin(ry);
+                const cosX = Math.cos(rx), sinX = Math.sin(rx);
+                const fov = 520;
+
+                return vertices.map(v => {
+                    const len = Math.hypot(...v);
+                    const vx = (v[0] / len) * radius;
+                    const vy = (v[1] / len) * radius;
+                    const vz = (v[2] / len) * radius;
+
+                    let x1 = vx * cosY - vz * sinY;
+                    let z1 = vz * cosY + vx * sinY;
+                    let y2 = vy * cosX - z1 * sinX;
+                    let z2 = z1 * cosX + vy * sinX;
+
+                    const scale = fov / (fov + z2 + 100);
+                    return {
+                        x: cx + (x1 + mouseX * 26) * scale,
+                        y: cy + (y2 + mouseY * 22 - scrollY * 0.12) * scale,
+                        z: z2,
+                        scale: scale
+                    };
+                });
+            }
+
+            function render(now) {
+                const dt = Math.min((now - lastTime) / 1000, 0.08);
+                lastTime = now;
+
+                ctx.clearRect(0, 0, width, height);
+
+                const outerRadius = width > 1024 ? 270 : (width > 640 ? 190 : 135);
+                const innerRadius = outerRadius * 0.52;
+
+                mouseX += (targetMouseX - mouseX) * 0.025;
+                mouseY += (targetMouseY - mouseY) * 0.025;
+
+                rotX += dt * 0.040;
+                rotY += dt * 0.065;
+                rotZ += dt * 0.020;
+
+                const cx = width > 1024 ? width * 0.74 : (width > 640 ? width * 0.68 : width * 0.5);
+                const cy = height > 800 ? Math.min(height * 0.38, 410) : Math.min(height * 0.36, 350);
+
+                const tiltX = mouseY * 0.22;
+                const tiltY = mouseX * 0.22;
+
+                const outerProj = project(rawOuterVertices, outerRadius, rotX + tiltX, rotY + tiltY, cx, cy);
+                const innerProj = project(rawInnerVertices, innerRadius, -rotX * 1.3 - tiltX, rotY * 1.4 + tiltY, cx, cy);
+
+                const onScreen = [];
+                for (let i = 0; i < particles.length; i++) {
+                    const p = particles[i];
+                    p.x += p.vx;
+                    p.y += p.vy;
+                    p.z += p.vz;
+                    p.pulse += dt * 1.4;
+
+                    if (p.x < -1000) p.x = 1000;
+                    if (p.x > 1000) p.x = -1000;
+                    if (p.y < -1000) p.y = 1000;
+                    if (p.y > 1000) p.y = -1000;
+
+                    const fov = 420;
+                    const scale = fov / (fov + p.z);
+                    const sx = (width / 2) + (p.x + mouseX * 32) * scale;
+                    const sy = (height / 2) + (p.y + mouseY * 28 - scrollY * 0.14) * scale;
+
+                    if (sx > -50 && sx < width + 50 && sy > -50 && sy < height + 50) {
+                        const baseAlpha = Math.max(0.08, 1 - p.z / 1150);
+                        const twinkle = 0.75 + Math.sin(p.pulse) * 0.25;
+                        const finalAlpha = Math.min(0.75, baseAlpha * twinkle);
+
+                        onScreen.push({ x: sx, y: sy, alpha: finalAlpha, size: p.size * scale, isCyan: (i % 3 === 0) });
+                    }
+                }
+
+                // Constellation Lines
+                const maxLinkDist = width > 768 ? 90 : 70;
+                ctx.lineWidth = 0.8;
+                for (let i = 0; i < onScreen.length; i++) {
+                    const p1 = onScreen[i];
+                    let links = 0;
+                    for (let j = i + 1; j < onScreen.length; j++) {
+                        if (links >= 3) break;
+                        const p2 = onScreen[j];
+                        const dx = p1.x - p2.x;
+                        const dy = p1.y - p2.y;
+                        const dist = Math.hypot(dx, dy);
+
+                        if (dist < maxLinkDist) {
+                            const linkAlpha = (1 - dist / maxLinkDist) * 0.20 * Math.min(p1.alpha, p2.alpha);
+                            ctx.strokeStyle = `rgba(28, 164, 225, ${linkAlpha})`;
+                            ctx.beginPath();
+                            ctx.moveTo(p1.x, p1.y);
+                            ctx.lineTo(p2.x, p2.y);
+                            ctx.stroke();
+                            links++;
+                        }
+                    }
+                }
+
+                // Particles
+                onScreen.forEach(p => {
+                    ctx.fillStyle = p.isCyan 
+                        ? `rgba(28, 164, 225, ${p.alpha * 0.9})` 
+                        : `rgba(255, 255, 255, ${p.alpha * 0.5})`;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, p.size, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                // Inner Core
+                ctx.save();
+                ctx.shadowColor = '#38bdf8';
+                ctx.shadowBlur = 12;
+                ctx.lineWidth = 1.0;
+
+                innerEdges.forEach(([i, j]) => {
+                    const p1 = innerProj[i];
+                    const p2 = innerProj[j];
+                    const depthAlpha = Math.max(0.18, Math.min(0.85, (p1.z + p2.z + 200) / 400));
+
+                    ctx.strokeStyle = `rgba(255, 255, 255, ${depthAlpha * 0.65})`;
+                    ctx.beginPath();
+                    ctx.moveTo(p1.x, p1.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.stroke();
+                });
+
+                innerProj.forEach(p => {
+                    ctx.fillStyle = '#ffffff';
+                    ctx.shadowBlur = 14;
+                    ctx.shadowColor = '#ffffff';
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 2.2, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                ctx.shadowBlur = 24;
+                ctx.shadowColor = '#1CA4E1';
+                ctx.fillStyle = '#1CA4E1';
+                ctx.beginPath();
+                ctx.arc(cx + mouseX * 20, cy + mouseY * 18 - scrollY * 0.12, 3.5, 0, Math.PI * 2);
+                ctx.fill();
+                ctx.restore();
+
+                // Outer Grand Icosahedron
+                ctx.save();
+                ctx.shadowColor = '#1CA4E1';
+                ctx.shadowBlur = 12;
+                ctx.lineWidth = 1.1;
+
+                outerEdges.forEach(([i, j]) => {
+                    const p1 = outerProj[i];
+                    const p2 = outerProj[j];
+                    const depthAlpha = Math.max(0.14, Math.min(0.75, (p1.z + p2.z + 320) / 640));
+
+                    ctx.strokeStyle = `rgba(28, 164, 225, ${depthAlpha})`;
+                    ctx.beginPath();
+                    ctx.moveTo(p1.x, p1.y);
+                    ctx.lineTo(p2.x, p2.y);
+                    ctx.stroke();
+                });
+
+                outerProj.forEach(p => {
+                    const depthAlpha = Math.max(0.25, Math.min(0.95, (p.z + 220) / 440));
+                    ctx.shadowBlur = 12;
+                    ctx.shadowColor = '#38bdf8';
+                    ctx.fillStyle = `rgba(255, 255, 255, ${depthAlpha})`;
+                    ctx.beginPath();
+                    ctx.arc(p.x, p.y, 2.4, 0, Math.PI * 2);
+                    ctx.fill();
+                });
+
+                // Anchor Lines
+                ctx.lineWidth = 0.7;
+                for (let i = 0; i < outerProj.length; i += 2) {
+                    const vp = outerProj[i];
+                    for (let j = 0; j < onScreen.length; j++) {
+                        const pp = onScreen[j];
+                        const dist = Math.hypot(vp.x - pp.x, vp.y - pp.y);
+                        if (dist < 80) {
+                            const alpha = (1 - dist / 80) * 0.25 * pp.alpha;
+                            ctx.strokeStyle = `rgba(56, 189, 248, ${alpha})`;
+                            ctx.beginPath();
+                            ctx.moveTo(vp.x, vp.y);
+                            ctx.lineTo(pp.x, pp.y);
+                            ctx.stroke();
+                            break;
+                        }
+                    }
+                }
+                ctx.restore();
+
+                requestAnimationFrame(render);
+            }
+
+            requestAnimationFrame(render);
+        })();
+    </script>
+</body>
+</html>
